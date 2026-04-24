@@ -1,0 +1,219 @@
+<style>
+  .direction-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 22px;
+  }
+
+  .direction-card {
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(255,255,255,.04);
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+
+  .direction-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,.28);
+    box-shadow: 0 22px 70px rgba(0,0,0,.35);
+  }
+
+  .direction-preview {
+    min-height: 280px;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 86px 1fr 96px;
+    gap: 12px;
+  }
+
+  .mini-panel,
+  .mini-stage,
+  .mini-control,
+  .mini-pill,
+  .mini-thumb {
+    border-radius: 14px;
+  }
+
+  .mini-panel {
+    padding: 12px;
+  }
+
+  .mini-title {
+    height: 8px;
+    width: 70%;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+
+  .mini-thumb {
+    height: 48px;
+    margin: 9px 0;
+  }
+
+  .mini-stage {
+    position: relative;
+    min-height: 244px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mini-phone {
+    width: 88px;
+    height: 172px;
+    border-radius: 22px;
+    transform: rotate(-8deg);
+  }
+
+  .mini-controls {
+    padding: 12px;
+  }
+
+  .mini-pill {
+    height: 20px;
+    margin-bottom: 12px;
+  }
+
+  .mini-control {
+    height: 38px;
+    margin-bottom: 10px;
+  }
+
+  .launch-console {
+    background:
+      linear-gradient(rgba(232,198,16,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,198,16,.08) 1px, transparent 1px),
+      radial-gradient(circle at 50% 35%, rgba(232,198,16,.28), transparent 34%),
+      linear-gradient(135deg, #050505, #151104 55%, #050505);
+    background-size: 26px 26px, 26px 26px, auto, auto;
+  }
+
+  .launch-console .mini-panel,
+  .launch-console .mini-controls {
+    background: #11100c;
+    box-shadow: inset 0 0 0 1px rgba(232,198,16,.18), 0 18px 42px rgba(0,0,0,.32);
+  }
+
+  .launch-console .mini-stage {
+    background: radial-gradient(circle, rgba(232,198,16,.20), rgba(255,253,245,.05) 45%, rgba(0,0,0,.42));
+    box-shadow: inset 0 0 52px rgba(232,198,16,.12);
+  }
+
+  .launch-console .mini-title,
+  .launch-console .mini-pill {
+    background: #e8c610;
+    box-shadow: 0 0 18px rgba(232,198,16,.48);
+  }
+
+  .launch-console .mini-thumb,
+  .launch-console .mini-control {
+    background: #242017;
+  }
+
+  .launch-console .mini-phone {
+    background: linear-gradient(160deg, #fffdf5, #8c7b26);
+    box-shadow: 0 24px 55px rgba(232,198,16,.28);
+  }
+
+  .studio-pro {
+    background: linear-gradient(135deg, #f7f2df, #e9dfba);
+  }
+
+  .studio-pro .mini-panel,
+  .studio-pro .mini-controls,
+  .studio-pro .mini-stage {
+    background: #fffaf0;
+    box-shadow: inset 0 0 0 1px rgba(43,37,21,.09), 0 20px 50px rgba(43,37,21,.10);
+  }
+
+  .studio-pro .mini-title,
+  .studio-pro .mini-pill {
+    background: #16140f;
+  }
+
+  .studio-pro .mini-thumb,
+  .studio-pro .mini-control {
+    background: #e3d7b0;
+  }
+
+  .studio-pro .mini-phone {
+    background: linear-gradient(160deg, #1b1a16, #c8ad2d);
+    box-shadow: 0 24px 55px rgba(43,37,21,.24);
+  }
+
+  .direction-body {
+    padding: 18px 20px 20px;
+  }
+
+  .direction-body h3 {
+    margin: 0 0 8px;
+  }
+
+  .motion-note {
+    margin-top: 24px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+</style>
+
+<h2>Glassy design removed. Which non-glass direction should drive the refresh?</h2>
+<p class="subtitle">Both directions keep the current three-column editor and use solid/elevated surfaces instead of translucent glass.</p>
+
+<div class="direction-grid">
+  <div class="direction-card card" data-choice="launch-console" onclick="toggleSelect(this)">
+    <div class="direction-preview launch-console">
+      <div class="mini-panel">
+        <div class="mini-title"></div>
+        <div class="mini-thumb"></div>
+        <div class="mini-thumb"></div>
+        <div class="mini-thumb"></div>
+      </div>
+      <div class="mini-stage">
+        <div class="mini-phone"></div>
+      </div>
+      <div class="mini-controls">
+        <div class="mini-pill"></div>
+        <div class="mini-control"></div>
+        <div class="mini-control"></div>
+        <div class="mini-control"></div>
+      </div>
+    </div>
+    <div class="direction-body">
+      <h3>Launch Console</h3>
+      <p>Dark black-and-gold, high energy, animated glow, stronger selected states, and a more dramatic preview stage.</p>
+    </div>
+  </div>
+
+  <div class="direction-card card" data-choice="studio-pro" onclick="toggleSelect(this)">
+    <div class="direction-preview studio-pro">
+      <div class="mini-panel">
+        <div class="mini-title"></div>
+        <div class="mini-thumb"></div>
+        <div class="mini-thumb"></div>
+        <div class="mini-thumb"></div>
+      </div>
+      <div class="mini-stage">
+        <div class="mini-phone"></div>
+      </div>
+      <div class="mini-controls">
+        <div class="mini-pill"></div>
+        <div class="mini-control"></div>
+        <div class="mini-control"></div>
+        <div class="mini-control"></div>
+      </div>
+    </div>
+    <div class="direction-body">
+      <h3>Studio Pro</h3>
+      <p>Warm, premium, calmer, solid editorial panels, refined shadows, and less visual intensity while still feeling polished.</p>
+    </div>
+  </div>
+</div>
+
+<div class="motion-note">
+  <strong>No glass rule:</strong> avoid translucent panels and blur-heavy effects. Use solid surfaces, gold accents, shadows, hover lift, pressed feedback, animated focus rings, and reduced-motion support.
+</div>

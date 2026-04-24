@@ -1,0 +1,59 @@
+<h2>Exact FrameLaunch Palette On The Editor</h2>
+<p class="subtitle">This preview maps the live landing page colors onto the screenshot editor: warm black panels, cream text, gold accents, and subtle gold focus states.</p>
+
+<div class="mockup" style="background:#0a0a0a;border-color:#2a2a2a;box-shadow:0 24px 80px rgba(0,0,0,.45);overflow:hidden">
+  <div class="mockup-header" style="background:#121212;border-color:#2a2a2a;color:#fffdf5;display:flex;justify-content:space-between;align-items:center">
+    <span>FrameLaunch Editor</span>
+    <span style="color:#e8c610;font-size:12px">0₺ · Watermark yok</span>
+  </div>
+  <div class="mockup-body" style="display:grid;grid-template-columns:190px 1fr 210px;gap:0;background:#0a0a0a;min-height:430px;padding:0">
+    <aside style="background:#121212;border-right:1px solid #2a2a2a;padding:18px">
+      <div style="color:#fffdf5;font-weight:700;margin-bottom:16px">Project</div>
+      <div style="background:#1c1c1c;border:1px solid rgba(232,198,16,.18);border-radius:12px;padding:12px;margin-bottom:14px;color:#fffdf5">
+        <div style="font-size:13px">Launch Screens</div>
+        <div style="font-size:11px;color:#9a9a9a;margin-top:4px">4 screenshots</div>
+      </div>
+      <div style="display:grid;gap:8px">
+        <div style="height:48px;border-radius:10px;background:#1c1c1c;border:1px solid #2a2a2a"></div>
+        <div style="height:48px;border-radius:10px;background:rgba(232,198,16,.08);border:1px solid rgba(232,198,16,.45)"></div>
+        <div style="height:48px;border-radius:10px;background:#1c1c1c;border:1px solid #2a2a2a"></div>
+      </div>
+      <button class="mock-button" style="margin-top:18px;background:#e8c610;color:#000;border:0;width:100%;font-weight:700">Add Screenshot</button>
+    </aside>
+    <main style="padding:26px;background:radial-gradient(circle at 50% 20%, rgba(232,198,16,.10), transparent 42%), #0a0a0a;display:flex;align-items:center;justify-content:center">
+      <div style="width:260px;height:330px;border-radius:28px;background:linear-gradient(145deg,#fff8d6,#e8c610);box-shadow:0 28px 70px rgba(232,198,16,.22);display:flex;align-items:center;justify-content:center;color:#000;font-weight:800;text-align:center">
+        Canvas Preview
+      </div>
+    </main>
+    <aside style="background:#121212;border-left:1px solid #2a2a2a;padding:18px">
+      <div style="display:flex;gap:6px;margin-bottom:16px">
+        <span style="background:#e8c610;color:#000;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700">Background</span>
+        <span style="background:#1c1c1c;color:#9a9a9a;border-radius:999px;padding:6px 10px;font-size:12px">Device</span>
+      </div>
+      <div style="color:#fffdf5;font-weight:700;margin-bottom:10px">Gradient</div>
+      <div style="height:54px;border-radius:12px;background:linear-gradient(135deg,#0f0c29,#e8c610,#fff066);border:1px solid rgba(232,198,16,.35);margin-bottom:18px"></div>
+      <div style="display:grid;gap:10px">
+        <div style="height:34px;background:#1c1c1c;border:1px solid #2a2a2a;border-radius:9px"></div>
+        <div style="height:34px;background:#1c1c1c;border:1px solid rgba(232,198,16,.18);border-radius:9px"></div>
+        <div style="height:34px;background:#1c1c1c;border:1px solid #2a2a2a;border-radius:9px"></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="options" style="margin-top:20px">
+  <div class="option" data-choice="approved" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Yes, this exact-match direction is right</h3>
+      <p>Use the landing page palette directly in the editor theme tokens.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="too-yellow" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Too much yellow for the editor</h3>
+      <p>Keep the brand palette, but reduce gold usage to primary actions and focus states.</p>
+    </div>
+  </div>
+</div>

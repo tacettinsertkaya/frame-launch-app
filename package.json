@@ -1,0 +1,25 @@
+{
+  "name": "frame.launch.app",
+  "version": "1.0.0",
+  "description": "Frame Launch App - Create beautiful Frame Launch App marketing screenshots",
+  "author": {
+    "name": "tacettin",
+    "email": "tacettinsertkaya@outlook.com",
+    "url": "https://criccletech.com"
+  },
+  "license": "MIT",
+  "homepage": "https://criccletech.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tacettinsertkaya"
+  },
+  "scripts": {
+    "serve": "python3 -m http.server 8000",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}

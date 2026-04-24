@@ -1,0 +1,4 @@
+{"type":"server-started","port":56057,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:56057","screen_dir":"/Users/tacettinsertkaya/Projects/frame-launch-app/.superpowers/brainstorm/14171-1777062309/content","state_dir":"/Users/tacettinsertkaya/Projects/frame-launch-app/.superpowers/brainstorm/14171-1777062309/state"}
+{"type":"screen-added","file":"/Users/tacettinsertkaya/Projects/frame-launch-app/.superpowers/brainstorm/14171-1777062309/content/theme-exact-match.html"}
+{"source":"user-event","type":"click","text":"A\n    \n      Yes, this exact-match direction is right\n      Use the landing page palette directly in the editor theme tokens.","choice":"approved","id":null,"timestamp":1777062409656}
+{"type":"server-stopped","reason":"idle timeout"}
