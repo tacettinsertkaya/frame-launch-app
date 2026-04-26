@@ -112,6 +112,15 @@ const baseTextDefaults = JSON.parse(JSON.stringify(state.defaults.text));
 let selectedElementId = null;
 let selectedPopoutId = null;
 let draggingElement = null;
+let designHistoryScreenshot = null;
+let isApplyingDesignHistory = false;
+const designHistory = typeof createDesignHistoryManager === 'function'
+    ? createDesignHistoryManager({
+        limit: 50,
+        cloneSnapshot: cloneDesignSnapshot,
+        isEqual: (a, b) => getDesignSnapshotKey(a) === getDesignSnapshotKey(b)
+    })
+    : null;
 
 // Preload laurel SVG images for element frames
 const laurelImages = {};
@@ -125,6 +134,154 @@ const laurelImages = {};
 function getCurrentScreenshot() {
     if (state.screenshots.length === 0) return null;
     return state.screenshots[state.selectedIndex];
+}
+
+function cloneWithoutRuntimeImages(value) {
+    return JSON.parse(JSON.stringify(value, (key, nestedValue) => {
+        if (key === 'image' || key === 'imageSrc') return undefined;
+        return nestedValue;
+    }));
+}
+
+function cloneBackgroundForHistory(background) {
+    const clone = cloneWithoutRuntimeImages(background || {});
+    clone.image = background?.image || null;
+    clone.imageSrc = background?.image?.src || null;
+    return clone;
+}
+
+function cloneElementForHistory(element) {
+    const clone = cloneWithoutRuntimeImages(element || {});
+    clone.image = element?.image || null;
+    clone.imageSrc = element?.image?.src || null;
+    return clone;
+}
+
+function cloneDesignSnapshot(snapshot) {
+    if (!snapshot) return null;
+    return {
+        background: cloneBackgroundForHistory(snapshot.background),
+        screenshot: cloneWithoutRuntimeImages(snapshot.screenshot || {}),
+        text: cloneWithoutRuntimeImages(snapshot.text || {}),
+        elements: (snapshot.elements || []).map(cloneElementForHistory),
+        popouts: cloneWithoutRuntimeImages(snapshot.popouts || [])
+    };
+}
+
+function getDesignSnapshotKey(snapshot) {
+    return JSON.stringify(snapshot, (key, value) => {
+        if (key === 'image') return value?.src || null;
+        return value;
+    });
+}
+
+function getCurrentDesignSnapshot() {
+    const screenshot = getCurrentScreenshot();
+    if (!screenshot) return null;
+    return cloneDesignSnapshot({
+        background: screenshot.background,
+        screenshot: screenshot.screenshot,
+        text: normalizeTextSettings(screenshot.text),
+        elements: screenshot.elements || [],
+        popouts: screenshot.popouts || []
+    });
+}
+
+function cloneBackgroundForState(background) {
+    const image = background?.image || null;
+    const clone = cloneWithoutRuntimeImages(background || {});
+    clone.image = image;
+    return clone;
+}
+
+function cloneElementForState(element) {
+    const image = element?.image || null;
+    const clone = cloneWithoutRuntimeImages(element || {});
+    if (image) clone.image = image;
+    return clone;
+}
+
+function applyDesignSnapshot(snapshot) {
+    const screenshot = getCurrentScreenshot();
+    if (!screenshot || !snapshot) return;
+
+    screenshot.background = cloneBackgroundForState(snapshot.background);
+    screenshot.screenshot = cloneWithoutRuntimeImages(snapshot.screenshot || {});
+    screenshot.text = normalizeTextSettings(cloneWithoutRuntimeImages(snapshot.text || {}));
+    screenshot.elements = (snapshot.elements || []).map(cloneElementForState);
+    screenshot.popouts = cloneWithoutRuntimeImages(snapshot.popouts || []);
+}
+
+function updateDesignHistoryButtons() {
+    const undoBtn = document.getElementById('undo-btn');
+    const redoBtn = document.getElementById('redo-btn');
+    const canUndo = !!designHistory?.canUndo();
+    const canRedo = !!designHistory?.canRedo();
+
+    if (undoBtn) undoBtn.disabled = !canUndo;
+    if (redoBtn) redoBtn.disabled = !canRedo;
+}
+
+function resetDesignHistoryForCurrentScreenshot() {
+    if (!designHistory) return;
+    designHistoryScreenshot = getCurrentScreenshot();
+    designHistory.reset(getCurrentDesignSnapshot());
+    updateDesignHistoryButtons();
+}
+
+function syncDesignHistoryScope() {
+    if (!designHistory) return false;
+    const screenshot = getCurrentScreenshot();
+    if (screenshot !== designHistoryScreenshot) {
+        designHistoryScreenshot = screenshot;
+        designHistory.reset(getCurrentDesignSnapshot());
+        updateDesignHistoryButtons();
+        return true;
+    }
+    return false;
+}
+
+function recordDesignHistorySnapshot(captureOptions = {}) {
+    if (!designHistory || isApplyingDesignHistory) return;
+    if (syncDesignHistoryScope()) return;
+    designHistory.capture(getCurrentDesignSnapshot(), captureOptions);
+    updateDesignHistoryButtons();
+}
+
+function refreshEditorAfterHistoryChange() {
+    syncUIWithState();
+    updateGradientStopsUI();
+    updateElementsList();
+    updatePopoutsList();
+    updateCanvas();
+}
+
+function undoDesignChange() {
+    if (!designHistory?.canUndo()) return;
+    const result = designHistory.undo(getCurrentDesignSnapshot());
+    if (!result) return;
+
+    isApplyingDesignHistory = true;
+    applyDesignSnapshot(result.snapshot);
+    refreshEditorAfterHistoryChange();
+    isApplyingDesignHistory = false;
+    updateDesignHistoryButtons();
+}
+
+function redoDesignChange() {
+    if (!designHistory?.canRedo()) return;
+    const result = designHistory.redo(getCurrentDesignSnapshot());
+    if (!result) return;
+
+    isApplyingDesignHistory = true;
+    applyDesignSnapshot(result.snapshot);
+    refreshEditorAfterHistoryChange();
+    isApplyingDesignHistory = false;
+    updateDesignHistoryButtons();
+}
+
+function isTypingTarget(target) {
+    return target?.closest?.('input, textarea, select, [contenteditable="true"]');
 }
 
 function getBackground() {
@@ -3650,6 +3807,22 @@ function setupPopoutEventListeners() {
 }
 
 function setupEventListeners() {
+    document.getElementById('undo-btn')?.addEventListener('click', undoDesignChange);
+    document.getElementById('redo-btn')?.addEventListener('click', redoDesignChange);
+    document.addEventListener('keydown', (e) => {
+        const isUndoShortcut = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && !e.shiftKey;
+        const isRedoShortcut = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && e.shiftKey;
+        if ((!isUndoShortcut && !isRedoShortcut) || isTypingTarget(e.target)) return;
+
+        e.preventDefault();
+        if (isUndoShortcut) {
+            undoDesignChange();
+        } else {
+            redoDesignChange();
+        }
+    });
+    updateDesignHistoryButtons();
+
     // Collapsible toggle rows
     document.querySelectorAll('.toggle-row.collapsible').forEach(row => {
         row.addEventListener('click', (e) => {
@@ -4538,8 +4711,9 @@ function setupEventListeners() {
     document.getElementById('headline-text').addEventListener('input', (e) => {
         const text = getTextSettings();
         if (!text.headlines) text.headlines = { en: '' };
-        text.headlines[text.currentHeadlineLang || 'en'] = e.target.value;
-        updateCanvas();
+        const lang = text.currentHeadlineLang || 'en';
+        text.headlines[lang] = e.target.value;
+        updateCanvas({ groupKey: `headline-text:${lang}` });
     });
 
     // Font picker is initialized separately via initFontPicker()
@@ -4598,8 +4772,9 @@ function setupEventListeners() {
     document.getElementById('subheadline-text').addEventListener('input', (e) => {
         const text = getTextSettings();
         if (!text.subheadlines) text.subheadlines = { en: '' };
-        text.subheadlines[text.currentSubheadlineLang || 'en'] = e.target.value;
-        updateCanvas();
+        const lang = text.currentSubheadlineLang || 'en';
+        text.subheadlines[lang] = e.target.value;
+        updateCanvas({ groupKey: `subheadline-text:${lang}` });
     });
 
     document.getElementById('subheadline-size').addEventListener('input', (e) => {
@@ -4643,6 +4818,31 @@ function setupEventListeners() {
     // Export buttons
     document.getElementById('export-current').addEventListener('click', exportCurrent);
     document.getElementById('export-all').addEventListener('click', exportAll);
+
+    // Canvas quick action buttons
+    document.getElementById('qa-export')?.addEventListener('click', () => exportCurrent());
+    document.getElementById('qa-duplicate')?.addEventListener('click', () => {
+        if (state.screenshots.length > 0) {
+            duplicateScreenshot(state.selectedIndex);
+        }
+    });
+    document.getElementById('qa-replace')?.addEventListener('click', () => {
+        if (state.screenshots.length > 0) {
+            replaceScreenshot(state.selectedIndex);
+        }
+    });
+    document.getElementById('qa-delete')?.addEventListener('click', () => {
+        if (state.screenshots.length > 0) {
+            state.screenshots.splice(state.selectedIndex, 1);
+            if (state.selectedIndex >= state.screenshots.length) {
+                state.selectedIndex = Math.max(0, state.screenshots.length - 1);
+            }
+            updateScreenshotList();
+            syncUIWithState();
+            updateGradientStopsUI();
+            updateCanvas();
+        }
+    });
 
     // Position presets
     document.querySelectorAll('.position-preset').forEach(btn => {
@@ -6261,6 +6461,10 @@ function updateScreenshotList() {
     noScreenshot.style.display = isEmpty ? 'block' : 'none';
     updateWorkspaceChrome();
 
+    // Toggle canvas quick actions visibility
+    const quickActions = document.getElementById('canvas-quick-actions');
+    if (quickActions) quickActions.classList.toggle('hidden', isEmpty);
+
     // Disable right sidebar and export buttons when no screenshots
     const rightSidebar = document.querySelector('.sidebar-right');
     if (rightSidebar) rightSidebar.classList.toggle('disabled', isEmpty);
@@ -6837,7 +7041,8 @@ function getCanvasDimensions() {
     return deviceDimensions[state.outputDevice];
 }
 
-function updateCanvas() {
+function updateCanvas(historyOptions = {}) {
+    recordDesignHistorySnapshot(historyOptions);
     saveState(); // Persist state on every update
     const dims = getCanvasDimensions();
     const scale = getEffectivePreviewScale(dims);
@@ -8167,22 +8372,8 @@ async function exportAll() {
         return;
     }
 
-    // Check if project has multiple languages configured
-    const hasMultipleLanguages = state.projectLanguages.length > 1;
-
-    if (hasMultipleLanguages) {
-        // Show language choice dialog
-        showExportLanguageDialog(async (choice) => {
-            if (choice === 'current') {
-                await exportAllForLanguage(state.currentLanguage);
-            } else if (choice === 'all') {
-                await exportAllLanguages();
-            }
-        });
-    } else {
-        // Only one language, export directly
-        await exportAllForLanguage(state.currentLanguage);
-    }
+    // Export in the current app language (no pick-all-languages flow; typical use is single locale)
+    await exportAllForLanguage(state.currentLanguage);
 }
 
 // Show export progress modal

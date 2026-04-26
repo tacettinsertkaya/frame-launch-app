@@ -122,6 +122,24 @@
             </div>
         </div>
         <nav class="editor-header-actions" aria-label="Appearance and language">
+            <div class="history-controls" role="group" aria-label="Undo and redo design changes">
+                <button class="history-btn" id="undo-btn" type="button" title="Undo design change (Cmd/Ctrl+Z)"
+                    aria-label="Undo design change" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M9 14l-4-4 4-4" />
+                        <path d="M5 10h11a4 4 0 010 8h-1" />
+                    </svg>
+                </button>
+                <button class="history-btn" id="redo-btn" type="button"
+                    title="Redo design change (Cmd/Ctrl+Shift+Z)" aria-label="Redo design change" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M15 14l4-4-4-4" />
+                        <path d="M19 10H8a4 4 0 000 8h1" />
+                    </svg>
+                </button>
+            </div>
             <div class="editor-theme-selector">
                 <div class="btn-group" id="theme-selector" role="group" aria-label="Color theme">
                     <button type="button" data-theme="auto" class="active" title="Match system">Auto</button>
@@ -367,6 +385,38 @@
                     <div class="canvas-wrapper" id="canvas-wrapper">
                         <canvas id="preview-canvas"></canvas>
                         <div id="threejs-container" style="display: none;"></div>
+
+                        <!-- Quick Actions Toolbar -->
+                        <div class="canvas-quick-actions" id="canvas-quick-actions">
+                            <button type="button" class="canvas-qa-btn" id="qa-export" title="Export current">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="canvas-qa-btn" id="qa-duplicate" title="Duplicate">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="canvas-qa-btn" id="qa-replace" title="Replace image">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                            </button>
+                            <div class="canvas-qa-separator"></div>
+                            <button type="button" class="canvas-qa-btn canvas-qa-danger" id="qa-delete" title="Remove screenshot">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+
                         <div class="no-screenshot" id="no-screenshot">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                                 <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -2191,6 +2241,7 @@
     <script src="magical-titles.js"></script>
     <script src="lucide-icons.js"></script>
     <script src="three-renderer.js"></script>
+    <script src="history-manager.js"></script>
     <script src="app.js"></script>
     <script>
         (function () {

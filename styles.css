@@ -188,6 +188,40 @@ html.tauri-app .right-sidebar {
     flex-shrink: 0;
 }
 
+.history-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-tertiary);
+}
+
+.history-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.history-btn:hover:not(:disabled) {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.history-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
 /* Project switcher in top bar (between brand and theme/lang) */
 .editor-header-project {
     flex: 1;
@@ -1469,6 +1503,84 @@ input[type="range"]:active::-webkit-slider-thumb {
 .canvas-wrapper.sliding-out-right {
     transform: translateX(100%);
     opacity: 0;
+}
+
+/* Canvas Quick Actions Toolbar */
+.canvas-quick-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    background: rgba(20, 20, 28, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.canvas-wrapper:hover .canvas-quick-actions,
+.canvas-quick-actions:focus-within {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.canvas-qa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.canvas-qa-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+.canvas-qa-btn:active {
+    transform: scale(0.92);
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.canvas-qa-btn svg {
+    flex-shrink: 0;
+}
+
+.canvas-qa-separator {
+    width: 1px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 2px;
+}
+
+.canvas-qa-danger:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+}
+
+.canvas-qa-danger:active {
+    background: rgba(239, 68, 68, 0.3);
+}
+
+.canvas-quick-actions.hidden {
+    display: none;
 }
 
 #preview-canvas {
