@@ -2905,6 +2905,11 @@ body.editor-page #language-picker {
     display: none !important;
 }
 
+body.editor-page .sidebar-right .tab[data-tab="popouts"],
+body.editor-page #tab-popouts {
+    display: none !important;
+}
+
 .settings-btn img {
     filter: invert(0.6);
     transition: filter 0.2s;

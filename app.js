@@ -1269,6 +1269,7 @@ const sidePreviewFarLeft = document.getElementById('side-preview-far-left');
 const sidePreviewFarRight = document.getElementById('side-preview-far-right');
 const previewStrip = document.querySelector('.preview-strip');
 const canvasWrapper = document.getElementById('canvas-wrapper');
+const canvasStageShell = document.querySelector('.canvas-stage-shell');
 
 let isSliding = false;
 let skipSidePreviewRender = false;  // Flag to skip re-rendering side previews after pre-render
@@ -1430,6 +1431,7 @@ function updateProjectSelector() {
     document.getElementById('project-trigger-name').textContent = currentProject.name;
     const count = state.screenshots.length;
     document.getElementById('project-trigger-meta').textContent = `${count} screenshot${count !== 1 ? 's' : ''}`;
+    updateWorkspaceChrome(currentProject.name);
 
     // Build menu options
     projects.forEach(project => {
@@ -1454,6 +1456,46 @@ function updateProjectSelector() {
 
         menu.appendChild(option);
     });
+}
+
+function updateWorkspaceChrome(projectName) {
+    const fallbackProjectName = document.getElementById('project-trigger-name')?.textContent || 'Default Project';
+    const currentProjectName = projectName || fallbackProjectName;
+    const screenshotCount = state.screenshots.length;
+    const screenshot = state.screenshots[state.selectedIndex] || null;
+    const shotNumber = screenshot ? Math.min(state.selectedIndex + 1, screenshotCount) : 0;
+    const outputName = document.getElementById('output-size-name')?.textContent || 'Output preset';
+    const outputDims = document.getElementById('output-size-dims')?.textContent || '';
+
+    const workspaceProjectName = document.getElementById('workspace-project-name');
+    const workspaceShotCount = document.getElementById('workspace-shot-count');
+    const sidebarScreenshotCount = document.getElementById('sidebar-screenshot-count');
+    const stageTitle = document.getElementById('stage-title');
+    const stageSubtitle = document.getElementById('stage-subtitle');
+    const stageSelectionChip = document.getElementById('stage-selection-chip');
+    const stageOutputSize = document.getElementById('stage-output-size');
+    const stageOutputDims = document.getElementById('stage-output-dims');
+
+    if (workspaceProjectName) workspaceProjectName.textContent = currentProjectName;
+    if (workspaceShotCount) workspaceShotCount.textContent = `${screenshotCount} shot${screenshotCount !== 1 ? 's' : ''}`;
+    if (sidebarScreenshotCount) sidebarScreenshotCount.textContent = String(screenshotCount);
+    if (stageOutputSize) stageOutputSize.textContent = outputName;
+    if (stageOutputDims) stageOutputDims.textContent = outputDims;
+
+    if (!stageTitle || !stageSubtitle || !stageSelectionChip) return;
+
+    stageSelectionChip.classList.toggle('is-empty', !screenshot);
+
+    if (!screenshot) {
+        stageTitle.textContent = 'No frame selected';
+        stageSubtitle.textContent = 'Import screenshots or start with a blank screen to begin composing your launch sequence.';
+        stageSelectionChip.textContent = 'No shots loaded';
+        return;
+    }
+
+    stageTitle.textContent = screenshot.name || `Shot ${shotNumber}`;
+    stageSubtitle.textContent = `${screenshot.deviceType || 'Custom layout'} · Shot ${shotNumber} of ${screenshotCount}. Shape the composition here, then fine-tune details in the inspector.`;
+    stageSelectionChip.textContent = `Shot ${shotNumber} of ${screenshotCount}`;
 }
 
 // Initialize
@@ -2910,7 +2952,7 @@ function setupElementCanvasDrag() {
             canvasWrapper.classList.add('element-dragging');
 
             const popoutsTab = document.querySelector('.tab[data-tab="popouts"]');
-            if (popoutsTab && !popoutsTab.classList.contains('active')) {
+            if (popoutsTab && popoutsTab.offsetParent != null && !popoutsTab.classList.contains('active')) {
                 popoutsTab.click();
             }
             return;
@@ -4078,14 +4120,18 @@ function setupEventListeners() {
 
     // Restore active tab from localStorage
     const savedTab = localStorage.getItem('activeTab');
-    if (savedTab) {
-        const tabBtn = document.querySelector(`.tab[data-tab="${savedTab}"]`);
+    const resolvedTab = savedTab === 'popouts' ? 'background' : savedTab;
+    if (resolvedTab) {
+        const tabBtn = document.querySelector(`.tab[data-tab="${resolvedTab}"]`);
         if (tabBtn) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             tabBtn.classList.add('active');
-            document.getElementById('tab-' + savedTab).classList.add('active');
+            document.getElementById('tab-' + resolvedTab).classList.add('active');
             syncEditorTabAria();
+            if (savedTab === 'popouts') {
+                localStorage.setItem('activeTab', resolvedTab);
+            }
         }
     }
 
@@ -6174,6 +6220,7 @@ function updateScreenshotList() {
     screenshotList.innerHTML = '';
     const isEmpty = state.screenshots.length === 0;
     noScreenshot.style.display = isEmpty ? 'block' : 'none';
+    updateWorkspaceChrome();
 
     // Disable right sidebar and export buttons when no screenshots
     const rightSidebar = document.querySelector('.sidebar-right');
@@ -6754,15 +6801,14 @@ function getCanvasDimensions() {
 function updateCanvas() {
     saveState(); // Persist state on every update
     const dims = getCanvasDimensions();
+    const scale = getPreviewScale(dims);
     canvas.width = dims.width;
     canvas.height = dims.height;
 
     // Scale for preview
-    const maxPreviewWidth = 400;
-    const maxPreviewHeight = 700;
-    const scale = Math.min(maxPreviewWidth / dims.width, maxPreviewHeight / dims.height);
     canvas.style.width = (dims.width * scale) + 'px';
     canvas.style.height = (dims.height * scale) + 'px';
+    updateWorkspaceChrome();
 
     // Draw background
     drawBackground();
@@ -6811,10 +6857,7 @@ function updateCanvas() {
 
 function updateSidePreviews() {
     const dims = getCanvasDimensions();
-    // Same scale as main preview
-    const maxPreviewWidth = 400;
-    const maxPreviewHeight = 700;
-    const previewScale = Math.min(maxPreviewWidth / dims.width, maxPreviewHeight / dims.height);
+    const previewScale = getPreviewScale(dims);
 
     // Initialize Three.js if any screenshot uses 3D mode (needed for side previews)
     const any3D = state.screenshots.some(s => s.screenshot?.use3D);
@@ -6897,14 +6940,24 @@ function updateSidePreviews() {
     }
 }
 
+function getPreviewScale(dims) {
+    const stageWidth = canvasStageShell?.clientWidth || previewStrip?.clientWidth || 900;
+    const stageHeight = canvasStageShell?.clientHeight || previewStrip?.clientHeight || 900;
+    const stageHeaderHeight = document.querySelector('.canvas-stage-header')?.offsetHeight || 0;
+    const stageToolbarHeight = document.querySelector('.canvas-stage-toolbar')?.offsetHeight || 0;
+    const horizontalPadding = window.innerWidth < 960 ? 48 : 150;
+    const verticalPadding = window.innerWidth < 960 ? 56 : 120;
+    const maxPreviewWidth = Math.max(240, Math.min(560, stageWidth - horizontalPadding));
+    const maxPreviewHeight = Math.max(340, Math.min(820, stageHeight - stageHeaderHeight - stageToolbarHeight - verticalPadding));
+    return Math.min(maxPreviewWidth / dims.width, maxPreviewHeight / dims.height);
+}
+
 function slideToScreenshot(newIndex, direction) {
     isSliding = true;
     previewStrip.classList.add('sliding');
 
     const dims = getCanvasDimensions();
-    const maxPreviewWidth = 400;
-    const maxPreviewHeight = 700;
-    const previewScale = Math.min(maxPreviewWidth / dims.width, maxPreviewHeight / dims.height);
+    const previewScale = getPreviewScale(dims);
     const slideDistance = dims.width * previewScale + 10; // canvas width + gap
 
     const newPrevIndex = newIndex - 1;
@@ -8467,4 +8520,16 @@ function wireIconClicks(grid) {
 }
 
 // Initialize the app
+let resizeFrame = null;
+window.addEventListener('resize', () => {
+    if (resizeFrame !== null) {
+        cancelAnimationFrame(resizeFrame);
+    }
+    resizeFrame = requestAnimationFrame(() => {
+        resizeFrame = null;
+        updateCanvas();
+        updateCropPreview();
+    });
+});
+
 initSync();
