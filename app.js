@@ -15,11 +15,11 @@ const state = {
             gradient: {
                 angle: 135,
                 stops: [
-                    { color: '#667eea', position: 0 },
-                    { color: '#764ba2', position: 100 }
+                    { color: '#e0eafc', position: 0 },
+                    { color: '#cfdef3', position: 100 }
                 ]
             },
-            solid: '#1a1a2e',
+            solid: '#e0eafc',
             image: null,
             imageFit: 'cover',
             imageBlur: 0,
@@ -1855,11 +1855,11 @@ function resetStateToDefaults() {
             gradient: {
                 angle: 135,
                 stops: [
-                    { color: '#667eea', position: 0 },
-                    { color: '#764ba2', position: 100 }
+                    { color: '#e0eafc', position: 0 },
+                    { color: '#cfdef3', position: 100 }
                 ]
             },
-            solid: '#1a1a2e',
+            solid: '#e0eafc',
             image: null,
             imageFit: 'cover',
             imageBlur: 0,
@@ -3968,12 +3968,15 @@ function setupEventListeners() {
         saveSettings();
     });
 
-    // Theme selector buttons
-    document.querySelectorAll('#theme-selector button').forEach(btn => {
+    // Theme selector (header)
+    syncThemeSelectorFromStorage();
+    document.querySelectorAll('#theme-selector button').forEach((btn) => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('#theme-selector button').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#theme-selector button').forEach((b) => b.classList.remove('active'));
             btn.classList.add('active');
-            applyTheme(btn.dataset.theme);
+            const theme = btn.dataset.theme;
+            localStorage.setItem('themePreference', theme);
+            applyTheme(theme);
         });
     });
 
@@ -4056,12 +4059,18 @@ function setupEventListeners() {
     });
 
     // Tabs
+    const syncEditorTabAria = () => {
+        document.querySelectorAll('.tab').forEach(t => {
+            t.setAttribute('aria-selected', t.classList.contains('active') ? 'true' : 'false');
+        });
+    };
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             tab.classList.add('active');
             document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+            syncEditorTabAria();
             // Save active tab to localStorage
             localStorage.setItem('activeTab', tab.dataset.tab);
         });
@@ -4076,6 +4085,7 @@ function setupEventListeners() {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             tabBtn.classList.add('active');
             document.getElementById('tab-' + savedTab).classList.add('active');
+            syncEditorTabAria();
         }
     }
 
@@ -5724,6 +5734,13 @@ function initTheme() {
     applyTheme(saved);
 }
 
+function syncThemeSelectorFromStorage() {
+    const savedTheme = localStorage.getItem('themePreference') || 'auto';
+    document.querySelectorAll('#theme-selector button').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.theme === savedTheme);
+    });
+}
+
 // Apply theme immediately (before async init)
 initTheme();
 
@@ -5768,11 +5785,7 @@ function openSettingsModal() {
         }
     });
 
-    // Load saved theme preference
-    const savedTheme = localStorage.getItem('themePreference') || 'auto';
-    document.querySelectorAll('#theme-selector button').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.theme === savedTheme);
-    });
+    syncThemeSelectorFromStorage();
 
     document.getElementById('settings-modal').classList.add('visible');
 }

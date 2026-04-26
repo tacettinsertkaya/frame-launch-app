@@ -187,6 +187,18 @@ html.tauri-app .right-sidebar {
     gap: 8px;
 }
 
+.editor-theme-selector .btn-group {
+    flex: 0 0 auto;
+    padding: 2px;
+    gap: 1px;
+}
+
+.editor-theme-selector .btn-group button {
+    padding: 4px 8px;
+    font-size: 11px;
+    min-width: 0;
+}
+
 .editor-lang-selector {
     position: relative;
 }
@@ -299,9 +311,40 @@ html.tauri-app .editor-header {
 
 .app-container {
     display: grid;
-    grid-template-columns: 320px 1fr 340px;
+    grid-template-columns: 320px 1fr 440px;
     min-height: calc(100vh - var(--editor-header-height));
     max-height: calc(100vh - var(--editor-header-height));
+}
+
+/* Editor: three floating panels as cards (editor.html) */
+body.editor-page .app-container {
+    gap: 12px;
+    padding: 12px 14px;
+    align-items: stretch;
+    background: transparent;
+}
+
+body.editor-page .sidebar,
+body.editor-page .canvas-area,
+body.editor-page .sidebar-right {
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--studio-shadow, 0 18px 44px rgba(0, 0, 0, 0.28));
+    min-height: 0;
+}
+
+body.editor-page .sidebar,
+body.editor-page .sidebar-right {
+    max-height: none;
+}
+
+body.editor-page .canvas-area {
+    background: var(--bg-primary);
+}
+
+html.tauri-app body.editor-page .app-container {
+    min-height: calc(100vh - var(--tauri-titlebar-height) - var(--editor-header-height));
+    max-height: calc(100vh - var(--tauri-titlebar-height) - var(--editor-header-height));
 }
 
 /* Sidebar styles */
@@ -372,95 +415,131 @@ html.tauri-app .editor-header {
 .sidebar-right .sidebar-header {
     flex-shrink: 0;
     margin-bottom: 0;
+    padding: 10px 10px 12px;
+    border-bottom: 1px solid color-mix(in srgb, var(--border-color), transparent 45%);
 }
 
+/* Segmented tab rail */
 .sidebar-right .sidebar-header .tabs {
     display: flex;
     width: 100%;
-    border-radius: 0;
-    padding: 6px 6px 0;
-    gap: 0;
-    background: var(--surface-sunken);
-    border-bottom: none;
+    align-items: stretch;
+    gap: 4px;
+    padding: 4px;
+    background: color-mix(in srgb, var(--surface-sunken) 92%, var(--bg-secondary));
+    border: 1px solid color-mix(in srgb, var(--border-color), transparent 35%);
+    border-radius: 12px;
+    box-shadow: inset 0 1px 0 rgba(255, 250, 240, 0.045);
     position: relative;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+}
+
+.sidebar-right .sidebar-header .tabs::-webkit-scrollbar {
+    display: none;
 }
 
 .sidebar-right .sidebar-header .tab {
     flex: 1 1 0;
-    width: 0;
-    border-radius: 10px 10px 0 0;
-    padding: 10px 2px 8px;
-    border-bottom: 2.5px solid transparent;
-    margin-bottom: 0;
-    gap: 3px;
-    font-size: 10px;
-    letter-spacing: 0.02em;
-    position: relative;
-    z-index: 1;
+    min-width: max-content;
+    width: auto;
+    display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.sidebar-right .sidebar-header .tab svg {
-    width: 16px;
-    height: 16px;
-    opacity: 0.55;
-    transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease, filter 0.2s ease;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 6px 7px;
+    margin: 0;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-transform: capitalize;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.14s ease;
 }
 
 .sidebar-right .sidebar-header .tab span {
-    transition: color 0.2s ease;
-    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    transition: color 0.18s ease;
+    font-weight: inherit;
+}
+
+.sidebar-right .sidebar-header .tab svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    opacity: 0.48;
+    transition: opacity 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.sidebar-right .sidebar-header .tab:hover:not(.active) {
+    background: color-mix(in srgb, var(--surface-highlight), transparent 55%);
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+.sidebar-right .sidebar-header .tab:hover:not(.active) svg {
+    opacity: 0.78;
 }
 
 .sidebar-right .sidebar-header .tab.active {
-    background: var(--bg-secondary);
-    border-bottom-color: transparent;
+    background: linear-gradient(
+        160deg,
+        color-mix(in srgb, var(--surface-raised), var(--accent-subtle) 50%),
+        var(--surface-raised)
+    );
     color: var(--accent);
-    box-shadow: none;
-    border-left: 1px solid var(--border-color);
-    border-right: 1px solid var(--border-color);
-    border-top: 2px solid var(--accent);
-    margin-top: -2px;
-    padding-top: 12px;
-}
-
-.sidebar-right .sidebar-header .tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: -1px;
-    right: -1px;
-    height: 2px;
-    background: var(--bg-secondary);
-    z-index: 2;
+    box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--accent), transparent 58%),
+        0 3px 10px color-mix(in srgb, var(--shadow-color), transparent 35%),
+        inset 0 1px 0 rgba(255, 250, 240, 0.07);
+    border: none;
+    margin: 0;
+    padding: 8px 6px 7px;
 }
 
 .sidebar-right .sidebar-header .tab.active svg {
     color: var(--accent);
     opacity: 1;
-    transform: scale(1.12);
-    filter: drop-shadow(0 0 3px var(--accent-subtle-strong));
+    transform: none;
+    filter: drop-shadow(0 0 5px var(--accent-subtle-strong));
 }
 
-.sidebar-right .sidebar-header .tab:hover:not(.active) {
-    background: color-mix(in srgb, var(--surface-sunken), var(--surface-highlight) 60%);
-    color: var(--text-primary);
-}
-
-.sidebar-right .sidebar-header .tab:hover:not(.active) svg {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
-
-/* Override studio-refresh generic tab styles for sidebar-right tabs */
 .sidebar-right .sidebar-header .tab:hover {
     transform: none;
-    box-shadow: none;
+}
+
+.sidebar-right .sidebar-header .tab:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg-secondary), 0 0 0 5px var(--focus-ring);
+}
+
+.sidebar-right .sidebar-header .tab.active:focus-visible {
+    box-shadow:
+        0 0 0 2px var(--bg-secondary),
+        0 0 0 5px var(--focus-ring),
+        0 0 0 1px color-mix(in srgb, var(--accent), transparent 58%),
+        0 3px 10px color-mix(in srgb, var(--shadow-color), transparent 35%),
+        inset 0 1px 0 rgba(255, 250, 240, 0.07);
 }
 
 .sidebar-right .sidebar-header .tab:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
 }
 
 .sidebar-right .sidebar-content {
@@ -469,7 +548,7 @@ html.tauri-app .editor-header {
     padding: 12px;
     padding-bottom: 24px;
     scrollbar-gutter: stable;
-    border-top: 1px solid var(--border-color);
+    border-top: none;
     mask-image: linear-gradient(to bottom, black calc(100% - 20px), transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 20px), transparent 100%);
 }

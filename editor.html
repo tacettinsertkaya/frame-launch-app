@@ -75,13 +75,20 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 
-<body>
+<body class="editor-page">
     <header class="editor-header">
         <a class="editor-header-brand" href="/" title="Back to home">
             <img class="editor-header-mark" src="img/logo.png" alt="Frame Launch" width="36" height="36">
             <span class="editor-header-word">Frame<span>Launch</span></span>
         </a>
         <div class="editor-header-actions">
+            <div class="editor-theme-selector" title="Appearance">
+                <div class="btn-group" id="theme-selector">
+                    <button type="button" data-theme="auto" class="active" title="Match system">Auto</button>
+                    <button type="button" data-theme="light" title="Light theme">Light</button>
+                    <button type="button" data-theme="dark" title="Dark theme">Dark</button>
+                </div>
+            </div>
             <div class="editor-lang-selector">
                 <button class="editor-lang-toggle" aria-haspopup="listbox" aria-expanded="false">
                     <span class="editor-lang-flag" aria-hidden="true">🇬🇧</span>
@@ -380,8 +387,8 @@
         <!-- Right Sidebar - Settings -->
         <div class="sidebar sidebar-right">
             <div class="sidebar-header">
-                <div class="tabs">
-                    <button class="tab active" data-tab="background">
+                <div class="tabs" role="tablist" aria-label="Settings sections">
+                    <button type="button" class="tab active" data-tab="background" role="tab" aria-selected="true">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -390,7 +397,7 @@
                         </svg>
                         <span>Background</span>
                     </button>
-                    <button class="tab" data-tab="screenshot">
+                    <button type="button" class="tab" data-tab="screenshot" role="tab" aria-selected="false">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="5" y="2" width="14" height="20" rx="2" />
@@ -398,7 +405,7 @@
                         </svg>
                         <span>Device</span>
                     </button>
-                    <button class="tab" data-tab="text">
+                    <button type="button" class="tab" data-tab="text" role="tab" aria-selected="false">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 7V4h16v3" />
@@ -407,7 +414,7 @@
                         </svg>
                         <span>Text</span>
                     </button>
-                    <button class="tab" data-tab="elements">
+                    <button type="button" class="tab" data-tab="elements" role="tab" aria-selected="false">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="7" height="7" />
@@ -417,7 +424,7 @@
                         </svg>
                         <span>Elements</span>
                     </button>
-                    <button class="tab" data-tab="popouts">
+                    <button type="button" class="tab" data-tab="popouts" role="tab" aria-selected="false">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="6" width="14" height="12" rx="2" />
@@ -453,6 +460,10 @@
                                 </button>
                                 <div class="preset-dropdown-content" id="gradient-preset-content">
                                     <div class="preset-grid" id="gradient-presets">
+                                        <!-- Default (matches state.defaults.background) -->
+                                        <div class="preset-swatch selected" title="Morning Mist"
+                                            style="background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)"
+                                            data-gradient="linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)"></div>
                                         <!-- Dark / Moody -->
                                         <div class="preset-swatch" title="Midnight Abyss"
                                             style="background: linear-gradient(160deg, #0a0a0f 0%, #1a1033 50%, #0d1b2a 100%)"
@@ -481,9 +492,9 @@
                                             style="background: linear-gradient(150deg, #2d1b69 0%, #ff2d78 50%, #ff901f 100%)"
                                             data-gradient="linear-gradient(150deg, #2d1b69 0%, #ff2d78 50%, #ff901f 100%)">
                                         </div>
-                                        <div class="preset-swatch" title="Indigo Rush"
-                                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-                                            data-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"></div>
+                                        <div class="preset-swatch" title="Studio Charcoal"
+                                            style="background: linear-gradient(135deg, #2c2619 0%, #11100d 100%)"
+                                            data-gradient="linear-gradient(135deg, #2c2619 0%, #11100d 100%)"></div>
                                         <!-- Nature / Aurora -->
                                         <div class="preset-swatch" title="Northern Lights"
                                             style="background: linear-gradient(135deg, #172347 0%, #015268 40%, #0ef3c5 100%)"
@@ -543,9 +554,6 @@
                                             data-gradient="linear-gradient(150deg, #1a0000 0%, #400128 50%, #6b0f1a 100%)">
                                         </div>
                                         <!-- Calm / Zen -->
-                                        <div class="preset-swatch" title="Morning Mist"
-                                            style="background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)"
-                                            data-gradient="linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)"></div>
                                         <div class="preset-swatch" title="Sage Whisper"
                                             style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
                                             data-gradient="linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"></div>
@@ -569,12 +577,12 @@
                             <label class="control-label">Colors</label>
                             <div class="gradient-stops" id="gradient-stops">
                                 <div class="gradient-stop">
-                                    <input type="color" value="#667eea" data-stop="0">
+                                    <input type="color" value="#e0eafc" data-stop="0">
                                     <input type="number" value="0" min="0" max="100" data-stop="0">
                                     <span>%</span>
                                 </div>
                                 <div class="gradient-stop">
-                                    <input type="color" value="#764ba2" data-stop="1">
+                                    <input type="color" value="#cfdef3" data-stop="1">
                                     <input type="number" value="100" min="0" max="100" data-stop="1">
                                     <span>%</span>
                                 </div>
@@ -588,8 +596,8 @@
                         <div class="control-group">
                             <label class="control-label">Background Color</label>
                             <div class="color-input-wrapper">
-                                <input type="color" id="solid-color" value="#1a1a2e">
-                                <input type="text" id="solid-color-hex" value="#1a1a2e">
+                                <input type="color" id="solid-color" value="#e0eafc">
+                                <input type="text" id="solid-color-hex" value="#e0eafc">
                             </div>
                         </div>
                     </div>
@@ -1957,16 +1965,6 @@
                     </svg>
                     Get your API key from Google AI Studio
                 </a>
-            </div>
-
-            <div
-                style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px;">
-                <span style="font-size: 13px; color: var(--text-secondary); flex-shrink: 0;">Appearance</span>
-                <div class="btn-group" id="theme-selector" style="flex: 0 0 200px;">
-                    <button data-theme="auto" class="active">Auto</button>
-                    <button data-theme="light">Light</button>
-                    <button data-theme="dark">Dark</button>
-                </div>
             </div>
 
             <div class="modal-buttons">

@@ -144,7 +144,7 @@ function initThreeJS() {
 
     // Create scene with a gradient background color (we'll update this dynamically)
     threeScene = new THREE.Scene();
-    threeScene.background = new THREE.Color(0x667eea); // Default gradient start color
+    threeScene.background = new THREE.Color(0xe0eafc); // Morning Mist — matches default gradient first stop
 
     // Create camera
     const aspect = 400 / 700;
@@ -1025,7 +1025,7 @@ function updateThreeJSBackground() {
         }
     } else {
         // For image backgrounds, use a neutral color
-        threeScene.background = new THREE.Color(0x1a1a2e);
+        threeScene.background = new THREE.Color(0xe0eafc);
     }
 
     // Trigger render update
