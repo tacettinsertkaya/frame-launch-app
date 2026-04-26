@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frame Launch - App Store ekran görüntüleri saniyeler içinde</title>
-    <meta name="description" content="Frame Launch ile tarayıcıda ücretsiz, hesap açmadan App Store ve Play Store görselleri oluşturun.">
-    <meta property="og:title" content="Frame Launch - App Store ekran görüntüleri">
-    <meta property="og:description" content="Tarayıcıda saniyeler içinde App Store / Play Store görselleri. Ücretsiz, hesap yok, watermark yok.">
+    <title>Frame Launch - Framelaunch ekran görüntüleri saniyeler içinde</title>
+    <meta name="description"
+        content="Frame Launch ile tarayıcıda ücretsiz, hesap açmadan Framelaunch ve Play Store görselleri oluşturun.">
+    <meta property="og:title" content="Frame Launch - Framelaunch ekran görüntüleri">
+    <meta property="og:description"
+        content="Tarayıcıda saniyeler içinde Framelaunch / Play Store görselleri. Ücretsiz, hesap yok, watermark yok.">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="landing.css">
     <script src="landing.js" defer></script>
 </head>
+
 <body class="landing-page">
     <nav class="landing-nav" aria-label="Ana navigasyon">
         <div class="landing-nav-shell">
@@ -19,8 +23,43 @@
                 <span class="landing-brand-word">Frame<span>Launch</span></span>
             </a>
             <div class="landing-nav-links">
-                <a href="#features">Özellikler</a>
-                <a class="landing-nav-cta" href="editor.html">Editörü aç</a>
+                <a href="#features" data-i18n="nav_features">Özellikler</a>
+                <a href="#how-it-works" data-i18n="nav_how">Nasıl çalışır</a>
+                <div class="landing-lang-selector">
+                    <button type="button" class="landing-lang-toggle" aria-haspopup="listbox" aria-expanded="false"
+                        aria-label="Dil">
+                        <span class="landing-lang-flag" aria-hidden="true">🇹🇷</span>
+                        <span class="landing-lang-label">TR</span>
+                        <svg class="landing-lang-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                            aria-hidden="true">
+                            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <ul class="landing-lang-menu" role="listbox" aria-label="Dil listesi">
+                        <li role="option" data-lang="tr" aria-selected="true">
+                            <span class="landing-lang-flag" aria-hidden="true">🇹🇷</span>
+                            <span>Türkçe</span>
+                        </li>
+                        <li role="option" data-lang="en" aria-selected="false">
+                            <span class="landing-lang-flag" aria-hidden="true">🇬🇧</span>
+                            <span>English</span>
+                        </li>
+                        <li role="option" data-lang="de" aria-selected="false">
+                            <span class="landing-lang-flag" aria-hidden="true">🇩🇪</span>
+                            <span>Deutsch</span>
+                        </li>
+                        <li role="option" data-lang="fr" aria-selected="false">
+                            <span class="landing-lang-flag" aria-hidden="true">🇫🇷</span>
+                            <span>Français</span>
+                        </li>
+                        <li role="option" data-lang="es" aria-selected="false">
+                            <span class="landing-lang-flag" aria-hidden="true">🇪🇸</span>
+                            <span>Español</span>
+                        </li>
+                    </ul>
+                </div>
+                <a class="landing-nav-cta" href="editor.html" data-i18n="nav_cta">Editörü aç</a>
             </div>
         </div>
     </nav>
@@ -34,112 +73,255 @@
 
             <div class="landing-hero-content">
                 <p class="landing-pill">
-                    Hesap yok · Watermark yok · Sınır yok · Veriniz tarayıcınızda kalır
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        aria-hidden="true">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    <span data-i18n="hero_pill">Hesap yok · Watermark yok · Sınır yok · Veriniz tarayıcınızda
+                        kalır</span>
                 </p>
-                <h1>
-                    App Store ekran görüntülerinizi
+                <h1 data-i18n-html="hero_title">
+                    Framelaunch ekran görüntülerinizi
                     <span>saniyeler içinde</span>
                     oluşturun
                 </h1>
-                <p class="landing-lede">
-                    Frame Launch, App Store ve Play Store başvuruları için profesyonel
+                <p class="landing-lede" data-i18n="hero_lede">
+                    Frame Launch, Framelaunch ve Play Store başvuruları için profesyonel
                     ekran görüntüleri tasarlamanın hızlı, ücretsiz ve gizlilik dostu yolu.
                 </p>
 
                 <div class="landing-actions" aria-label="Birincil aksiyonlar">
-                    <a class="landing-button landing-button-primary" href="editor.html">
+                    <a class="landing-button landing-button-primary" href="editor.html"
+                        data-i18n-html="hero_cta_primary">
                         Hemen oluşturmaya başla
                         <span aria-hidden="true">→</span>
                     </a>
-                    <a class="landing-button landing-button-secondary" href="#features">
-                        Özellikleri keşfet
-                    </a>
+                    <a class="landing-button landing-button-secondary" href="#features"
+                        data-i18n="hero_cta_secondary">Özellikleri keşfet</a>
                 </div>
 
                 <dl class="landing-stats" aria-label="Frame Launch öne çıkan istatistikler">
                     <div>
                         <dt><span data-stat-value="14">0</span>+</dt>
-                        <dd>Cihaz boyutu</dd>
+                        <dd data-i18n="stat_devices">Cihaz boyutu</dd>
                     </div>
                     <div>
                         <dt><span data-stat-value="5">0</span>+</dt>
-                        <dd>Hazır şablon</dd>
+                        <dd data-i18n="stat_templates">Hazır şablon</dd>
                     </div>
                     <div>
                         <dt><span data-stat-value="100">0</span>%</dt>
-                        <dd>Tarayıcıda</dd>
+                        <dd data-i18n="stat_browser">Tarayıcıda</dd>
                     </div>
                     <div>
                         <dt><span data-stat-value="0">0</span>₺</dt>
-                        <dd>Ücretsiz</dd>
+                        <dd data-i18n="stat_free">Ücretsiz</dd>
                     </div>
                 </dl>
+            </div>
+
+            <div class="landing-hero-demo" aria-hidden="true">
+                <div class="landing-demo-window">
+                    <div class="landing-demo-titlebar">
+                        <span class="landing-demo-dot"></span>
+                        <span class="landing-demo-dot"></span>
+                        <span class="landing-demo-dot"></span>
+                        <span class="landing-demo-url">framelaunch.store/editor</span>
+                    </div>
+                    <div class="landing-demo-body">
+                        <div class="landing-demo-sidebar">
+                            <div class="landing-demo-sidebar-item active"></div>
+                            <div class="landing-demo-sidebar-item"></div>
+                            <div class="landing-demo-sidebar-item"></div>
+                        </div>
+                        <div class="landing-demo-canvas">
+                            <div class="landing-demo-phone">
+                                <div class="landing-demo-phone-screen"></div>
+                            </div>
+                        </div>
+                        <div class="landing-demo-panel">
+                            <div class="landing-demo-panel-row"></div>
+                            <div class="landing-demo-panel-row short"></div>
+                            <div class="landing-demo-slider">
+                                <div class="landing-demo-slider-track">
+                                    <div class="landing-demo-slider-thumb"></div>
+                                </div>
+                            </div>
+                            <div class="landing-demo-panel-row"></div>
+                            <div class="landing-demo-slider">
+                                <div class="landing-demo-slider-track">
+                                    <div class="landing-demo-slider-thumb" style="left:65%"></div>
+                                </div>
+                            </div>
+                            <div class="landing-demo-panel-row short"></div>
+                            <div class="landing-demo-color-row">
+                                <span></span><span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="landing-how" id="how-it-works">
+            <div class="landing-section-heading">
+                <p data-i18n="how_badge">Nasıl çalışır</p>
+                <h2 data-i18n="how_title">3 adımda profesyonel görseller</h2>
+            </div>
+            <div class="landing-steps">
+                <div class="landing-step reveal-item">
+                    <div class="landing-step-number">1</div>
+                    <div class="landing-step-content">
+                        <h3 data-i18n="how_step1_title">Yükleyin</h3>
+                        <p data-i18n="how_step1_desc">Uygulama ekran görüntülerinizi sürükleyip bırakın veya dosya
+                            seçin.</p>
+                    </div>
+                </div>
+                <div class="landing-step-connector" aria-hidden="true">
+                    <svg width="40" height="24" viewBox="0 0 40 24">
+                        <path d="M0 12h36m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" fill="none"
+                            stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div class="landing-step reveal-item">
+                    <div class="landing-step-number">2</div>
+                    <div class="landing-step-content">
+                        <h3 data-i18n="how_step2_title">Tasarlayın</h3>
+                        <p data-i18n="how_step2_desc">Arka plan, çerçeve, başlık, 3D görünüm ve efektleri özelleştirin.
+                        </p>
+                    </div>
+                </div>
+                <div class="landing-step-connector" aria-hidden="true">
+                    <svg width="40" height="24" viewBox="0 0 40 24">
+                        <path d="M0 12h36m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" fill="none"
+                            stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div class="landing-step reveal-item">
+                    <div class="landing-step-number">3</div>
+                    <div class="landing-step-content">
+                        <h3 data-i18n="how_step3_title">İndirin</h3>
+                        <p data-i18n="how_step3_desc">Tek tıkla veya toplu ZIP olarak PNG formatında dışa aktarın.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section class="landing-features" id="features">
             <div class="landing-section-heading">
-                <p>Neler sunuyor</p>
-                <h2>Profesyonel screenshot için ihtiyacınız olan her şey</h2>
-                <span>Tasarımcı olmadan, kod yazmadan, hesap açmadan. Tüm araçlar bir tıkla erişiminizde.</span>
+                <p data-i18n="features_badge">Neler sunuyor</p>
+                <h2 data-i18n="features_title">Profesyonel screenshot için ihtiyacınız olan her şey</h2>
+                <span data-i18n="features_subtitle">Tasarımcı olmadan, kod yazmadan, hesap açmadan. Tüm araçlar bir
+                    tıkla erişiminizde.</span>
             </div>
 
             <div class="landing-feature-grid">
-                <article class="landing-feature-card">
-                    <span class="landing-feature-icon" aria-hidden="true">01</span>
-                    <h3>14+ cihaz ve marketing boyutu</h3>
-                    <p>iPhone, iPad, Android, OG, Twitter Card, Website Hero ve custom boyutlar.</p>
+                <article class="landing-feature-card reveal-item">
+                    <span class="landing-feature-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                            <rect x="5" y="2" width="14" height="20" rx="2" />
+                            <line x1="12" y1="18" x2="12" y2="18" stroke-linecap="round" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n="feature_1_title">14+ cihaz ve marketing boyutu</h3>
+                    <p data-i18n="feature_1_desc">iPhone, iPad, Android, OG, Twitter Card, Website Hero ve custom
+                        boyutlar.</p>
                 </article>
-                <article class="landing-feature-card">
-                    <span class="landing-feature-icon" aria-hidden="true">02</span>
-                    <h3>Profesyonel arka planlar</h3>
-                    <p>Gradient, düz renk veya kendi görseliniz. Blur, overlay ve noise ile ince ayar.</p>
+                <article class="landing-feature-card reveal-item">
+                    <span class="landing-feature-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <circle cx="8.5" cy="8.5" r="1.5" />
+                            <path d="M21 15l-5-5L5 21" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n="feature_2_title">Profesyonel arka planlar</h3>
+                    <p data-i18n="feature_2_desc">Gradient, düz renk veya kendi görseliniz. Blur, overlay ve noise ile
+                        ince ayar.</p>
                 </article>
-                <article class="landing-feature-card">
-                    <span class="landing-feature-icon" aria-hidden="true">03</span>
-                    <h3>Çok dilli metinler</h3>
-                    <p>Headline ve subheadline içeriklerini her dil için ayrı yönetin.</p>
+                <article class="landing-feature-card reveal-item">
+                    <span class="landing-feature-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                            <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2v3M22 22l-5-10-5 10M14 18h6" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n="feature_3_title">Çok dilli metinler</h3>
+                    <p data-i18n="feature_3_desc">Headline ve subheadline içeriklerini her dil için ayrı yönetin.</p>
                 </article>
-                <article class="landing-feature-card">
-                    <span class="landing-feature-icon" aria-hidden="true">04</span>
-                    <h3>Ön plan elementleri</h3>
-                    <p>İkon, emoji, metin rozeti ve grafiklerle dikkat çekici detaylar oluşturun.</p>
+                <article class="landing-feature-card reveal-item">
+                    <span class="landing-feature-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" />
+                            <rect x="14" y="3" width="7" height="7" />
+                            <rect x="3" y="14" width="7" height="7" />
+                            <path d="M17.5 14v7M14 17.5h7" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n="feature_4_title">Ön plan elementleri</h3>
+                    <p data-i18n="feature_4_desc">İkon, emoji, metin rozeti ve grafiklerle dikkat çekici detaylar
+                        oluşturun.</p>
                 </article>
-                <article class="landing-feature-card">
-                    <span class="landing-feature-icon" aria-hidden="true">05</span>
-                    <h3>Hazır şablon kütüphanesi</h3>
-                    <p>SaaS, e-ticaret, fitness, AI ve marketing tasarımlarıyla hızlı başlayın.</p>
+                <article class="landing-feature-card reveal-item">
+                    <span class="landing-feature-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M3 9h18M9 21V9" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n="feature_5_title">Hazır şablon kütüphanesi</h3>
+                    <p data-i18n="feature_5_desc">SaaS, e-ticaret, fitness, AI ve marketing tasarımlarıyla hızlı
+                        başlayın.</p>
                 </article>
-                <article class="landing-feature-card">
-                    <span class="landing-feature-icon" aria-hidden="true">06</span>
-                    <h3>Tek tık veya toplu PNG export</h3>
-                    <p>Tek bir görseli veya tüm projeyi marketlere uygun çözünürlükte indirin.</p>
+                <article class="landing-feature-card reveal-item">
+                    <span class="landing-feature-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n="feature_6_title">Tek tık veya toplu PNG export</h3>
+                    <p data-i18n="feature_6_desc">Tek bir görseli veya tüm projeyi marketlere uygun çözünürlükte
+                        indirin.</p>
                 </article>
-                <article class="landing-feature-card">
-                    <span class="landing-feature-icon" aria-hidden="true">07</span>
-                    <h3>Tarayıcıda yüzde yüz çalışır</h3>
-                    <p>Yüklediğiniz görseller sunucuya gitmez. Tüm işleme cihazınızda kalır.</p>
+                <article class="landing-feature-card reveal-item">
+                    <span class="landing-feature-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n="feature_7_title">Tarayıcıda yüzde yüz çalışır</h3>
+                    <p data-i18n="feature_7_desc">Yüklediğiniz görseller sunucuya gitmez. Tüm işleme cihazınızda kalır.
+                    </p>
                 </article>
-                <article class="landing-feature-card">
-                    <span class="landing-feature-icon" aria-hidden="true">08</span>
-                    <h3>Hesap yok, watermark yok</h3>
-                    <p>Kayıt, ücret veya filigran olmadan sınırsız kullanım.</p>
+                <article class="landing-feature-card reveal-item">
+                    <span class="landing-feature-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n="feature_8_title">Hesap yok, watermark yok</h3>
+                    <p data-i18n="feature_8_desc">Kayıt, ücret veya filigran olmadan sınırsız kullanım.</p>
                 </article>
-                <article class="landing-feature-card">
-                    <span class="landing-feature-icon" aria-hidden="true">09</span>
-                    <h3>Anında önizleme</h3>
-                    <p>Canvas tabanlı render ile yaptığınız değişiklikleri anında görün.</p>
+                <article class="landing-feature-card reveal-item">
+                    <span class="landing-feature-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n="feature_9_title">Anında önizleme</h3>
+                    <p data-i18n="feature_9_desc">Canvas tabanlı render ile yaptığınız değişiklikleri anında görün.</p>
                 </article>
             </div>
         </section>
 
         <section class="landing-cta">
             <div class="landing-grid" aria-hidden="true"></div>
-            <div class="landing-cta-content">
-                <p class="landing-pill">60 saniye · 0 ücret</p>
-                <h2>İlk screenshot'ınızı <span>60 saniyede</span> yapın</h2>
-                <p>Hesap açmadan, kart bilgisi vermeden. Doğrudan editöre geçin.</p>
-                <a class="landing-button landing-button-primary" href="editor.html">Editörü aç</a>
+            <div class="landing-cta-content reveal-item">
+                <p class="landing-pill" data-i18n="cta_pill">60 saniye · 0 ücret</p>
+                <h2 data-i18n-html="cta_title">İlk screenshot'ınızı <span>60 saniyede</span> yapın</h2>
+                <p data-i18n="cta_desc">Hesap açmadan, kart bilgisi vermeden. Doğrudan editöre geçin.</p>
+                <a class="landing-button landing-button-primary" href="editor.html" data-i18n="cta_button">Editörü
+                    aç</a>
             </div>
         </section>
     </main>
@@ -149,11 +331,12 @@
             <img class="landing-brand-mark" src="img/logo.png" alt="Frame Launch" width="56" height="56">
             <span class="landing-brand-word">Frame<span>Launch</span></span>
         </a>
-        <p>© <span data-current-year></span> Frame Launch · Tarayıcıda ücretsiz</p>
+        <p data-i18n-html="footer_copy">© <span data-current-year></span> Frame Launch · Tarayıcıda ücretsiz</p>
         <div>
-            <a href="editor.html">Editör</a>
-            <a href="#features">Özellikler</a>
+            <a href="editor.html" data-i18n="footer_editor">Editör</a>
+            <a href="#features" data-i18n="footer_features">Özellikler</a>
         </div>
     </footer>
 </body>
+
 </html>

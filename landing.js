@@ -17,7 +17,7 @@
     window.addEventListener('scroll', syncNav, { passive: true });
 
     function setFinalStatValues() {
-        statTargets.forEach((target) => {
+        statTargets.forEach(function (target) {
             target.textContent = target.dataset.statValue || '0';
         });
     }
@@ -26,13 +26,13 @@
         setFinalStatValues();
     } else {
         function animateNumber(target) {
-            const finalValue = Number(target.dataset.statValue || 0);
-            const start = performance.now();
-            const duration = 1100;
+            var finalValue = Number(target.dataset.statValue || 0);
+            var start = performance.now();
+            var duration = 1100;
 
             function tick(now) {
-                const progress = Math.min(1, (now - start) / duration);
-                const eased = 1 - Math.pow(1 - progress, 3);
+                var progress = Math.min(1, (now - start) / duration);
+                var eased = 1 - Math.pow(1 - progress, 3);
                 target.textContent = String(Math.round(finalValue * eased));
 
                 if (progress < 1) {
@@ -43,32 +43,81 @@
             requestAnimationFrame(tick);
         }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
+        var statObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
                 if (!entry.isIntersecting) return;
                 animateNumber(entry.target);
-                observer.unobserve(entry.target);
+                statObserver.unobserve(entry.target);
             });
         }, { threshold: 0.35 });
 
-        statTargets.forEach((target) => observer.observe(target));
+        statTargets.forEach(function (target) { statObserver.observe(target); });
     }
+
+    // ── Scroll-triggered reveal animations ──
+
+    var revealItems = Array.from(document.querySelectorAll('.reveal-item'));
+
+    if (!reduceMotion && revealItems.length > 0) {
+        var revealObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                var el = entry.target;
+                var siblings = el.parentElement ? Array.from(el.parentElement.querySelectorAll('.reveal-item')) : [];
+                var idx = siblings.indexOf(el);
+                var delay = Math.max(0, idx) * 80;
+                el.style.transitionDelay = delay + 'ms';
+                el.classList.add('is-visible');
+                revealObserver.unobserve(el);
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        revealItems.forEach(function (item) { revealObserver.observe(item); });
+    } else {
+        revealItems.forEach(function (item) { item.classList.add('is-visible'); });
+    }
+
+    // ── Smooth scroll for anchor links ──
+
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            var target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
 
     // ── i18n translations ──
 
-    const translations = {
+    var translations = {
         tr: {
+            page_title: 'Frame Launch - Framelaunch ekran görüntüleri saniyeler içinde',
+            meta_desc: 'Frame Launch ile tarayıcıda ücretsiz, hesap açmadan Framelaunch ve Play Store görselleri oluşturun.',
+            nav_aria: 'Ana navigasyon',
+            lang_aria: 'Dil',
+            lang_menu_aria: 'Dil listesi',
             nav_features: 'Özellikler',
+            nav_how: 'Nasıl çalışır',
             nav_cta: 'Editörü aç',
             hero_pill: 'Hesap yok · Watermark yok · Sınır yok · Veriniz tarayıcınızda kalır',
-            hero_title: 'App Store ekran görüntülerinizi <span>saniyeler içinde</span> oluşturun',
-            hero_lede: 'Frame Launch, App Store ve Play Store başvuruları için profesyonel ekran görüntüleri tasarlamanın hızlı, ücretsiz ve gizlilik dostu yolu.',
+            hero_title: 'Framelaunch ekran görüntülerinizi <span>saniyeler içinde</span> oluşturun',
+            hero_lede: 'Frame Launch, Framelaunch ve Play Store başvuruları için profesyonel ekran görüntüleri tasarlamanın hızlı, ücretsiz ve gizlilik dostu yolu.',
             hero_cta_primary: 'Hemen oluşturmaya başla <span aria-hidden="true">→</span>',
             hero_cta_secondary: 'Özellikleri keşfet',
             stat_devices: 'Cihaz boyutu',
             stat_templates: 'Hazır şablon',
             stat_browser: 'Tarayıcıda',
             stat_free: 'Ücretsiz',
+            how_badge: 'Nasıl çalışır',
+            how_title: '3 adımda profesyonel görseller',
+            how_step1_title: 'Yükleyin',
+            how_step1_desc: 'Uygulama ekran görüntülerinizi sürükleyip bırakın veya dosya seçin.',
+            how_step2_title: 'Tasarlayın',
+            how_step2_desc: 'Arka plan, çerçeve, başlık, 3D görünüm ve efektleri özelleştirin.',
+            how_step3_title: 'İndirin',
+            how_step3_desc: 'Tek tıkla veya toplu ZIP olarak PNG formatında dışa aktarın.',
             features_badge: 'Neler sunuyor',
             features_title: 'Profesyonel screenshot için ihtiyacınız olan her şey',
             features_subtitle: 'Tasarımcı olmadan, kod yazmadan, hesap açmadan. Tüm araçlar bir tıkla erişiminizde.',
@@ -99,17 +148,31 @@
             footer_features: 'Özellikler',
         },
         en: {
+            page_title: 'Frame Launch - Framelaunch screenshots in seconds',
+            meta_desc: 'Create Framelaunch and Play Store marketing images in your browser, free, with no sign-up. No watermark.',
+            nav_aria: 'Main navigation',
+            lang_aria: 'Language',
+            lang_menu_aria: 'Choose language',
             nav_features: 'Features',
+            nav_how: 'How it works',
             nav_cta: 'Open Editor',
             hero_pill: 'No account · No watermark · No limits · Your data stays in your browser',
-            hero_title: 'Create your App Store screenshots <span>in seconds</span>',
-            hero_lede: 'Frame Launch is the fast, free, and privacy-friendly way to design professional screenshots for App Store and Play Store submissions.',
+            hero_title: 'Create your Framelaunch screenshots <span>in seconds</span>',
+            hero_lede: 'Frame Launch is the fast, free, and privacy-friendly way to design professional screenshots for Framelaunch and Play Store submissions.',
             hero_cta_primary: 'Start creating now <span aria-hidden="true">→</span>',
             hero_cta_secondary: 'Explore features',
             stat_devices: 'Device sizes',
             stat_templates: 'Templates',
             stat_browser: 'In-browser',
             stat_free: 'Free',
+            how_badge: 'How it works',
+            how_title: 'Professional visuals in 3 steps',
+            how_step1_title: 'Upload',
+            how_step1_desc: 'Drag and drop your app screenshots or browse files.',
+            how_step2_title: 'Customize',
+            how_step2_desc: 'Set background, frame, headline, 3D view and effects.',
+            how_step3_title: 'Download',
+            how_step3_desc: 'Export as PNG with one click or batch ZIP.',
             features_badge: 'What it offers',
             features_title: 'Everything you need for professional screenshots',
             features_subtitle: 'No designer, no code, no account. All the tools you need, one click away.',
@@ -140,17 +203,31 @@
             footer_features: 'Features',
         },
         de: {
+            page_title: 'Frame Launch - Framelaunch-Screenshots in Sekunden',
+            meta_desc: 'Framelaunch- und Play Store-Grafiken kostenlos im Browser erstellen. Kein Konto, kein Wasserzeichen.',
+            nav_aria: 'Hauptnavigation',
+            lang_aria: 'Sprache',
+            lang_menu_aria: 'Sprachauswahl',
             nav_features: 'Funktionen',
+            nav_how: 'So funktioniert\'s',
             nav_cta: 'Editor öffnen',
             hero_pill: 'Kein Konto · Kein Wasserzeichen · Keine Grenzen · Ihre Daten bleiben im Browser',
-            hero_title: 'Erstellen Sie Ihre App Store-Screenshots <span>in Sekunden</span>',
-            hero_lede: 'Frame Launch ist der schnelle, kostenlose und datenschutzfreundliche Weg, professionelle Screenshots für App Store und Play Store zu gestalten.',
+            hero_title: 'Erstellen Sie Ihre Framelaunch-Screenshots <span>in Sekunden</span>',
+            hero_lede: 'Frame Launch ist der schnelle, kostenlose und datenschutzfreundliche Weg, professionelle Screenshots für Framelaunch und Play Store zu gestalten.',
             hero_cta_primary: 'Jetzt erstellen <span aria-hidden="true">→</span>',
             hero_cta_secondary: 'Funktionen entdecken',
             stat_devices: 'Gerätegrößen',
             stat_templates: 'Vorlagen',
             stat_browser: 'Im Browser',
             stat_free: 'Kostenlos',
+            how_badge: 'So funktioniert\'s',
+            how_title: 'Professionelle Visuals in 3 Schritten',
+            how_step1_title: 'Hochladen',
+            how_step1_desc: 'Ziehen Sie Ihre App-Screenshots per Drag & Drop oder wählen Sie Dateien aus.',
+            how_step2_title: 'Gestalten',
+            how_step2_desc: 'Hintergrund, Rahmen, Überschrift, 3D-Ansicht und Effekte anpassen.',
+            how_step3_title: 'Herunterladen',
+            how_step3_desc: 'Exportieren Sie als PNG mit einem Klick oder als Batch-ZIP.',
             features_badge: 'Was es bietet',
             features_title: 'Alles was Sie für professionelle Screenshots brauchen',
             features_subtitle: 'Kein Designer, kein Code, kein Konto. Alle Werkzeuge mit einem Klick.',
@@ -181,17 +258,31 @@
             footer_features: 'Funktionen',
         },
         fr: {
+            page_title: 'Frame Launch - Captures Framelaunch en quelques secondes',
+            meta_desc: 'Créez des visuels Framelaunch et Play Store dans le navigateur, gratuits, sans compte. Pas de filigrane.',
+            nav_aria: 'Navigation principale',
+            lang_aria: 'Langue',
+            lang_menu_aria: 'Choisir la langue',
             nav_features: 'Fonctionnalités',
+            nav_how: 'Comment ça marche',
             nav_cta: 'Ouvrir l\'éditeur',
             hero_pill: 'Pas de compte · Pas de filigrane · Sans limite · Vos données restent dans votre navigateur',
-            hero_title: 'Créez vos captures App Store <span>en quelques secondes</span>',
-            hero_lede: 'Frame Launch est le moyen rapide, gratuit et respectueux de la vie privée pour concevoir des captures d\'écran professionnelles pour l\'App Store et le Play Store.',
+            hero_title: 'Créez vos captures Framelaunch <span>en quelques secondes</span>',
+            hero_lede: 'Frame Launch est le moyen rapide, gratuit et respectueux de la vie privée pour concevoir des captures d\'écran professionnelles pour l\'Framelaunch et le Play Store.',
             hero_cta_primary: 'Commencer maintenant <span aria-hidden="true">→</span>',
             hero_cta_secondary: 'Découvrir les fonctionnalités',
             stat_devices: 'Tailles d\'écran',
             stat_templates: 'Modèles',
             stat_browser: 'Dans le navigateur',
             stat_free: 'Gratuit',
+            how_badge: 'Comment ça marche',
+            how_title: 'Des visuels professionnels en 3 étapes',
+            how_step1_title: 'Téléchargez',
+            how_step1_desc: 'Glissez-déposez vos captures d\'écran ou parcourez vos fichiers.',
+            how_step2_title: 'Personnalisez',
+            how_step2_desc: 'Fond, cadre, titre, vue 3D et effets.',
+            how_step3_title: 'Téléchargez',
+            how_step3_desc: 'Exportez en PNG en un clic ou en ZIP par lot.',
             features_badge: 'Ce qu\'il offre',
             features_title: 'Tout ce dont vous avez besoin pour des captures professionnelles',
             features_subtitle: 'Sans designer, sans code, sans compte. Tous les outils en un clic.',
@@ -222,17 +313,31 @@
             footer_features: 'Fonctionnalités',
         },
         es: {
+            page_title: 'Frame Launch - Capturas de Framelaunch en segundos',
+            meta_desc: 'Crea imágenes de Framelaunch y Play Store en el navegador, gratis, sin cuenta. Sin marca de agua.',
+            nav_aria: 'Navegación principal',
+            lang_aria: 'Idioma',
+            lang_menu_aria: 'Elegir idioma',
             nav_features: 'Características',
+            nav_how: 'Cómo funciona',
             nav_cta: 'Abrir editor',
             hero_pill: 'Sin cuenta · Sin marca de agua · Sin límites · Tus datos permanecen en tu navegador',
-            hero_title: 'Crea tus capturas de App Store <span>en segundos</span>',
-            hero_lede: 'Frame Launch es la forma rápida, gratuita y respetuosa con la privacidad de diseñar capturas de pantalla profesionales para App Store y Play Store.',
+            hero_title: 'Crea tus capturas de Framelaunch <span>en segundos</span>',
+            hero_lede: 'Frame Launch es la forma rápida, gratuita y respetuosa con la privacidad de diseñar capturas de pantalla profesionales para Framelaunch y Play Store.',
             hero_cta_primary: 'Empieza a crear ahora <span aria-hidden="true">→</span>',
             hero_cta_secondary: 'Explorar características',
             stat_devices: 'Tamaños de dispositivo',
             stat_templates: 'Plantillas',
             stat_browser: 'En el navegador',
             stat_free: 'Gratis',
+            how_badge: 'Cómo funciona',
+            how_title: 'Visuales profesionales en 3 pasos',
+            how_step1_title: 'Sube',
+            how_step1_desc: 'Arrastra y suelta tus capturas o selecciona archivos.',
+            how_step2_title: 'Personaliza',
+            how_step2_desc: 'Fondo, marco, título, vista 3D y efectos.',
+            how_step3_title: 'Descarga',
+            how_step3_desc: 'Exporta como PNG con un clic o ZIP por lotes.',
             features_badge: 'Qué ofrece',
             features_title: 'Todo lo que necesitas para capturas profesionales',
             features_subtitle: 'Sin diseñador, sin código, sin cuenta. Todas las herramientas a un clic.',
@@ -263,17 +368,31 @@
             footer_features: 'Características',
         },
         ja: {
+            page_title: 'Frame Launch - Framelaunch スクリーンショットを数秒で',
+            meta_desc: 'ブラウザ上でFramelaunch / Play Store向けの画像を無料で。アカウント不要、透かしなし。',
+            nav_aria: 'メインナビゲーション',
+            lang_aria: '言語',
+            lang_menu_aria: '言語を選ぶ',
             nav_features: '機能',
+            nav_how: '使い方',
             nav_cta: 'エディタを開く',
             hero_pill: 'アカウント不要 · 透かしなし · 制限なし · データはブラウザに保存',
-            hero_title: 'App Storeのスクリーンショットを<span>数秒で</span>作成',
-            hero_lede: 'Frame Launchは、App StoreとPlay Storeのプロフェッショナルなスクリーンショットを、高速・無料・プライバシーに配慮して作成できるツールです。',
+            hero_title: 'Framelaunchのスクリーンショットを<span>数秒で</span>作成',
+            hero_lede: 'Frame Launchは、FramelaunchとPlay Storeのプロフェッショナルなスクリーンショットを、高速・無料・プライバシーに配慮して作成できるツールです。',
             hero_cta_primary: '今すぐ作成を開始 <span aria-hidden="true">→</span>',
             hero_cta_secondary: '機能を見る',
             stat_devices: 'デバイスサイズ',
             stat_templates: 'テンプレート',
             stat_browser: 'ブラウザ内',
             stat_free: '無料',
+            how_badge: '使い方',
+            how_title: '3ステップでプロフェッショナルなビジュアル',
+            how_step1_title: 'アップロード',
+            how_step1_desc: 'アプリのスクリーンショットをドラッグ&ドロップまたはファイルを選択。',
+            how_step2_title: 'カスタマイズ',
+            how_step2_desc: '背景、フレーム、見出し、3Dビュー、エフェクトを設定。',
+            how_step3_title: 'ダウンロード',
+            how_step3_desc: 'ワンクリックでPNG、またはバッチZIPでエクスポート。',
             features_badge: '提供機能',
             features_title: 'プロフェッショナルなスクリーンショットに必要なすべて',
             features_subtitle: 'デザイナー不要、コード不要、アカウント不要。すべてのツールがワンクリックで。',
@@ -305,7 +424,7 @@
         },
     };
 
-    const langMeta = {
+    var langMeta = {
         tr: { flag: '🇹🇷', label: 'TR', htmlLang: 'tr' },
         en: { flag: '🇬🇧', label: 'EN', htmlLang: 'en' },
         de: { flag: '🇩🇪', label: 'DE', htmlLang: 'de' },
@@ -316,20 +435,20 @@
 
     // ── Language selector ──
 
-    const langToggle = document.querySelector('.landing-lang-toggle');
-    const langMenu = document.querySelector('.landing-lang-menu');
+    var langToggle = document.querySelector('.landing-lang-toggle');
+    var langMenu = document.querySelector('.landing-lang-menu');
 
     if (langToggle && langMenu) {
         langToggle.addEventListener('click', function (e) {
             e.stopPropagation();
-            const isOpen = langMenu.classList.toggle('is-open');
+            var isOpen = langMenu.classList.toggle('is-open');
             langToggle.setAttribute('aria-expanded', String(isOpen));
         });
 
         langMenu.addEventListener('click', function (e) {
-            const item = e.target.closest('[data-lang]');
+            var item = e.target.closest('[data-lang]');
             if (!item) return;
-            const lang = item.dataset.lang;
+            var lang = item.dataset.lang;
             setLanguage(lang);
             langMenu.classList.remove('is-open');
             langToggle.setAttribute('aria-expanded', 'false');
@@ -350,8 +469,8 @@
 
     function setLanguage(lang) {
         if (!translations[lang]) return;
-        const strings = translations[lang];
-        const meta = langMeta[lang];
+        var strings = translations[lang];
+        var meta = langMeta[lang];
 
         document.querySelectorAll('[data-i18n]').forEach(function (el) {
             var key = el.getAttribute('data-i18n');
@@ -365,15 +484,40 @@
 
         if (meta) {
             document.documentElement.lang = meta.htmlLang;
-            var flagEl = langToggle.querySelector('.landing-lang-flag');
-            var labelEl = langToggle.querySelector('.landing-lang-label');
-            if (flagEl) flagEl.textContent = meta.flag;
-            if (labelEl) labelEl.textContent = meta.label;
+            if (langToggle) {
+                var flagEl = langToggle.querySelector('.landing-lang-flag');
+                var labelEl = langToggle.querySelector('.landing-lang-label');
+                if (flagEl) flagEl.textContent = meta.flag;
+                if (labelEl) labelEl.textContent = meta.label;
+            }
         }
 
-        langMenu.querySelectorAll('[data-lang]').forEach(function (li) {
-            li.setAttribute('aria-selected', li.dataset.lang === lang ? 'true' : 'false');
-        });
+        if (langMenu) {
+            langMenu.querySelectorAll('[data-lang]').forEach(function (li) {
+                li.setAttribute('aria-selected', li.dataset.lang === lang ? 'true' : 'false');
+            });
+        }
+
+        if (strings.page_title) {
+            document.title = strings.page_title;
+            var ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', strings.page_title);
+        }
+        if (strings.meta_desc) {
+            var mDesc = document.querySelector('meta[name="description"]');
+            if (mDesc) mDesc.setAttribute('content', strings.meta_desc);
+            var ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc) ogDesc.setAttribute('content', strings.meta_desc);
+        }
+        if (nav && strings.nav_aria) {
+            nav.setAttribute('aria-label', strings.nav_aria);
+        }
+        if (langToggle && strings.lang_aria) {
+            langToggle.setAttribute('aria-label', strings.lang_aria);
+        }
+        if (langMenu && strings.lang_menu_aria) {
+            langMenu.setAttribute('aria-label', strings.lang_menu_aria);
+        }
 
         try { localStorage.setItem('fl-landing-lang', lang); } catch (e) {}
     }

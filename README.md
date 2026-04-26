@@ -1,11 +1,11 @@
-# App Store Screenshot Generator
+# Framelaunch Screenshot Generator
 
-A free, open-source tool for creating beautiful App Store screenshots with customizable backgrounds, text overlays, and 3D device mockups.
+A free, open-source tool for creating beautiful Framelaunch screenshots with customizable backgrounds, text overlays, and 3D device mockups.
 
 
 **[Start using it now. Hosted on GitHub Pages](https://yuzu-hub.github.io/appscreen/)**
 
-![App Store Screenshot Generator](img/screenshot-generator.png)
+![Framelaunch Screenshot Generator](img/screenshot-generator.png)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -15,7 +15,7 @@ A free, open-source tool for creating beautiful App Store screenshots with custo
 ## Features
 
 ### Output & Export
-- **Multiple Output Sizes**: iPhone 6.9", 6.7", 6.5", 5.5" and iPad 12.9", 11" App Store requirements, plus custom sizes
+- **Multiple Output Sizes**: iPhone 6.9", 6.7", 6.5", 5.5" and iPad 12.9", 11" Framelaunch requirements, plus custom sizes
 - **Batch Export**: Export all screenshots at once as a ZIP file
 - **Per-Screenshot Settings**: Each screenshot can have its own background, device settings, and text
 

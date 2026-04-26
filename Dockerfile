@@ -1,10 +1,10 @@
-# App Store Screenshot Generator
+# Framelaunch Screenshot Generator
 # Lightweight nginx container serving static files
 
 FROM nginx:alpine
 
-LABEL maintainer="App Store Screenshot Generator"
-LABEL description="Browser-based tool for creating App Store marketing screenshots"
+LABEL maintainer="Framelaunch Screenshot Generator"
+LABEL description="Browser-based tool for creating Framelaunch marketing screenshots"
 
 # Remove default nginx static assets
 RUN rm -rf /usr/share/nginx/html/*

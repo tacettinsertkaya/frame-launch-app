@@ -134,6 +134,8 @@ html.tauri-app .right-sidebar {
 }
 
 .editor-header {
+    position: relative;
+    z-index: 50;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -142,7 +144,8 @@ html.tauri-app .right-sidebar {
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
     flex-shrink: 0;
-    z-index: 50;
+    /* z-index + position: required so the header (and the lang dropdown) stack above
+       .app-container, which is position: relative; z-index: 1; */
 }
 
 .editor-header-brand {
@@ -4343,11 +4346,46 @@ input[type="range"]::-webkit-slider-thumb {
 @keyframes studioShellReveal {
     from {
         opacity: 0;
-        transform: translateY(6px);
+        transform: translateY(12px);
+        filter: blur(4px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes studioSlideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes studioSlideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes studioCanvasReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
@@ -4386,18 +4424,28 @@ body::before {
     z-index: 1;
 }
 
-.sidebar,
-.canvas-area,
-.sidebar-right {
-    animation: studioShellReveal 0.42s ease both;
+.editor-header {
+    animation: studioShellReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.sidebar {
+    animation: studioSlideInLeft 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
 }
 
 .canvas-area {
-    animation-delay: 0.04s;
+    animation: studioCanvasReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
 }
 
 .sidebar-right {
-    animation-delay: 0.08s;
+    animation: studioSlideInRight 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.tabs {
+    animation: studioShellReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+}
+
+.sidebar-footer {
+    animation: studioShellReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
 }
 
 .export-btn,

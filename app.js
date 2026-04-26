@@ -602,7 +602,7 @@ const languageFlags = {
 const googleFonts = {
     loaded: new Set(),
     loading: new Set(),
-    // Popular fonts that are commonly used for marketing/app store
+    // Popular fonts that are commonly used for marketing/Framelaunch
     popular: [
         'Inter', 'Poppins', 'Roboto', 'Open Sans', 'Montserrat', 'Lato', 'Raleway',
         'Nunito', 'Playfair Display', 'Oswald', 'Merriweather', 'Source Sans Pro',
@@ -719,7 +719,7 @@ async function fetchAllGoogleFonts() {
         if (apiKey) {
             url.searchParams.set('key', apiKey);
         }
-        
+
         try {
             const response = await fetch(url);
             if (response.ok) {
@@ -5122,7 +5122,7 @@ async function aiTranslateAll() {
         // Build the translation prompt
         const targetLangNames = targetLangs.map(lang => `${languageNames[lang]} (${lang})`).join(', ');
 
-        const prompt = `You are a professional translator for App Store screenshot marketing copy. Translate the following text from ${languageNames[sourceLang]} to these languages: ${targetLangNames}.
+        const prompt = `You are a professional translator for Framelaunch screenshot marketing copy. Translate the following text from ${languageNames[sourceLang]} to these languages: ${targetLangNames}.
 
 The text is a short marketing headline/tagline for an app that must fit on a screenshot, so keep translations:
 - SIMILAR LENGTH to the original - do NOT make it longer, as it must fit on screen
@@ -5514,9 +5514,9 @@ async function translateAllText() {
             }
         });
 
-        const prompt = `You are a professional translator for App Store screenshot marketing copy. Translate the following texts from ${languageNames[sourceLang]} to these languages: ${targetLangNames}.
+        const prompt = `You are a professional translator for Framelaunch screenshot marketing copy. Translate the following texts from ${languageNames[sourceLang]} to these languages: ${targetLangNames}.
 
-CONTEXT: These are marketing texts for app store screenshots. Each screenshot has a headline and/or subheadline that work together as a pair. The subheadline typically elaborates on or supports the headline. When translating, ensure:
+CONTEXT: These are marketing texts for Framelaunch screenshots. Each screenshot has a headline and/or subheadline that work together as a pair. The subheadline typically elaborates on or supports the headline. When translating, ensure:
 - Headlines and subheadlines on the same screenshot remain thematically consistent
 - Translations across all screenshots maintain a cohesive marketing voice
 - SIMILAR LENGTH to the originals - do NOT make translations longer, as they must fit on screen
@@ -7387,9 +7387,9 @@ function drawElementsToContext(context, dims, elements, layer) {
             if (el.iconShadow?.enabled) {
                 const s = el.iconShadow;
                 const hex = s.color || '#000000';
-                const r = parseInt(hex.slice(1,3), 16);
-                const g = parseInt(hex.slice(3,5), 16);
-                const b = parseInt(hex.slice(5,7), 16);
+                const r = parseInt(hex.slice(1, 3), 16);
+                const g = parseInt(hex.slice(3, 5), 16);
+                const b = parseInt(hex.slice(5, 7), 16);
                 context.shadowColor = `rgba(${r},${g},${b},${(s.opacity || 0) / 100})`;
                 context.shadowBlur = s.blur || 0;
                 context.shadowOffsetX = s.x || 0;
@@ -8416,7 +8416,7 @@ function renderIconGrid(category) {
     const grid = document.getElementById('icon-grid');
     if (!grid) return;
     const icons = category === 'popular' ? (typeof LUCIDE_POPULAR !== 'undefined' ? LUCIDE_POPULAR : []) :
-                                            (typeof LUCIDE_ALL !== 'undefined' ? LUCIDE_ALL : []);
+        (typeof LUCIDE_ALL !== 'undefined' ? LUCIDE_ALL : []);
     grid.innerHTML = icons.map(name =>
         `<div class="picker-grid-item icon-grid-item" data-icon-name="${name}" title="${name}"><div class="icon-placeholder"></div></div>`
     ).join('');

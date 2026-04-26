@@ -315,7 +315,7 @@ async function generateMagicalTitles() {
     }
 
     // Build prompt
-    const prompt = `You are an expert App Store marketing copywriter. Analyze these ${images.length} app screenshots and create compelling marketing titles.
+    const prompt = `You are an expert Framelaunch marketing copywriter. Analyze these ${images.length} app screenshots and create compelling marketing titles.
 
 The screenshots are shown in order (1 through ${images.length}). Study what the app does and identify:
 1. The main purpose and value proposition

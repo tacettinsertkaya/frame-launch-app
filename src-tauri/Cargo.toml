@@ -1,7 +1,7 @@
 [package]
 name = "yuzu-shot"
 version = "1.0.0"
-description = "App Store Screenshot Generator"
+description = "Framelaunch Screenshot Generator"
 authors = ["YUZUHub"]
 edition = "2021"
 
