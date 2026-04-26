@@ -1,4 +1,11 @@
 // State management
+const CANVAS_ZOOM_MIN = 0.25;
+const CANVAS_ZOOM_MAX = 3;
+/** 1 = 100% preview zoom (multiplier on top of auto-fit; export unchanged) */
+const DEFAULT_CANVAS_PREVIEW_ZOOM = 1;
+const CANVAS_PREVIEW_BASE_BOOST = 1;
+const SIDE_PREVIEW_GAP = 10;
+
 const state = {
     screenshots: [],
     selectedIndex: 0,
@@ -8,6 +15,8 @@ const state = {
     projectLanguages: ['en'], // Languages available in this project
     customWidth: 1290,
     customHeight: 2796,
+    // Multiplier on auto preview fit (0.25–3); does not affect export resolution.
+    canvasPreviewZoom: DEFAULT_CANVAS_PREVIEW_ZOOM,
     // Default settings applied to new screenshots
     defaults: {
         background: {
@@ -1269,7 +1278,6 @@ const sidePreviewFarLeft = document.getElementById('side-preview-far-left');
 const sidePreviewFarRight = document.getElementById('side-preview-far-right');
 const previewStrip = document.querySelector('.preview-strip');
 const canvasWrapper = document.getElementById('canvas-wrapper');
-const canvasStageShell = document.querySelector('.canvas-stage-shell');
 
 let isSliding = false;
 let skipSidePreviewRender = false;  // Flag to skip re-rendering side previews after pre-render
@@ -1574,6 +1582,7 @@ function saveState() {
         customHeight: state.customHeight,
         currentLanguage: state.currentLanguage,
         projectLanguages: state.projectLanguages,
+        canvasPreviewZoom: state.canvasPreviewZoom,
         defaults: state.defaults
     };
 
@@ -1634,6 +1643,11 @@ function reconstructElementImages(elements) {
     });
 }
 
+function clampCanvasPreviewZoom(z) {
+    if (typeof z !== 'number' || Number.isNaN(z)) return 1;
+    return Math.min(CANVAS_ZOOM_MAX, Math.max(CANVAS_ZOOM_MIN, z));
+}
+
 // Load state from IndexedDB for current project
 function loadState() {
     if (!db) return Promise.resolve();
@@ -1684,6 +1698,25 @@ function loadState() {
                         if (parsed.text) {
                             migratedText = { ...state.defaults.text, ...parsed.text };
                         }
+                    }
+
+                    // Project-level state from storage (before async screenshot loads and empty-project UI)
+                    state.selectedIndex = parsed.selectedIndex || 0;
+                    state.outputDevice = parsed.outputDevice || 'iphone-6.9';
+                    state.customWidth = parsed.customWidth || 1320;
+                    state.customHeight = parsed.customHeight || 2868;
+                    state.canvasPreviewZoom = clampCanvasPreviewZoom(
+                        typeof parsed.canvasPreviewZoom === 'number' ? parsed.canvasPreviewZoom : DEFAULT_CANVAS_PREVIEW_ZOOM
+                    );
+                    state.currentLanguage = parsed.currentLanguage || 'en';
+                    state.projectLanguages = parsed.projectLanguages || ['en'];
+                    if (parsed.defaults) {
+                        state.defaults = parsed.defaults;
+                        if (!state.defaults.elements) state.defaults.elements = [];
+                    } else {
+                        state.defaults.background = migratedBackground;
+                        state.defaults.screenshot = migratedScreenshot;
+                        state.defaults.text = migratedText;
                     }
 
                     if (parsed.screenshots && parsed.screenshots.length > 0) {
@@ -1822,26 +1855,6 @@ function loadState() {
                         updateGradientStopsUI();
                         updateCanvas();
                     }
-
-                    state.selectedIndex = parsed.selectedIndex || 0;
-                    state.outputDevice = parsed.outputDevice || 'iphone-6.9';
-                    state.customWidth = parsed.customWidth || 1320;
-                    state.customHeight = parsed.customHeight || 2868;
-
-                    // Load global language settings
-                    state.currentLanguage = parsed.currentLanguage || 'en';
-                    state.projectLanguages = parsed.projectLanguages || ['en'];
-
-                    // Load defaults (new format) or use migrated settings
-                    if (parsed.defaults) {
-                        state.defaults = parsed.defaults;
-                        // Ensure elements array exists (may be missing from older saves)
-                        if (!state.defaults.elements) state.defaults.elements = [];
-                    } else {
-                        state.defaults.background = migratedBackground;
-                        state.defaults.screenshot = migratedScreenshot;
-                        state.defaults.text = migratedText;
-                    }
                 } else {
                     // New project, reset to defaults
                     resetStateToDefaults();
@@ -1889,6 +1902,7 @@ function resetStateToDefaults() {
     state.outputDevice = 'iphone-6.9';
     state.customWidth = 1320;
     state.customHeight = 2868;
+    state.canvasPreviewZoom = DEFAULT_CANVAS_PREVIEW_ZOOM;
     state.currentLanguage = 'en';
     state.projectLanguages = ['en'];
     state.defaults = {
@@ -2361,6 +2375,8 @@ function syncUIWithState() {
     selectedPopoutId = null;
     updatePopoutsList();
     updatePopoutProperties();
+
+    syncCanvasZoomUI();
 }
 
 // ===== Elements Tab UI =====
@@ -3664,6 +3680,29 @@ function setupEventListeners() {
         updateGradientStopsUI();
         updateCanvas();
     });
+
+    // Canvas preview zoom (display only; export resolution unchanged)
+    const zoomOut = document.getElementById('canvas-zoom-out');
+    const zoomIn = document.getElementById('canvas-zoom-in');
+    const zoomReset = document.getElementById('canvas-zoom-reset');
+    const zoomSlider = document.getElementById('canvas-zoom-slider');
+    if (zoomOut && zoomIn && zoomSlider) {
+        zoomOut.addEventListener('click', () => setCanvasPreviewZoom(state.canvasPreviewZoom / 1.12));
+        zoomIn.addEventListener('click', () => setCanvasPreviewZoom(state.canvasPreviewZoom * 1.12));
+        if (zoomReset) zoomReset.addEventListener('click', () => setCanvasPreviewZoom(DEFAULT_CANVAS_PREVIEW_ZOOM));
+        zoomSlider.addEventListener('input', () => {
+            setCanvasPreviewZoom(parseInt(zoomSlider.value, 10) / 100);
+        });
+    }
+    const canvasWrapperForZoom = document.getElementById('canvas-wrapper');
+    if (canvasWrapperForZoom) {
+        canvasWrapperForZoom.addEventListener('wheel', (e) => {
+            if (!e.ctrlKey && !e.metaKey) return;
+            e.preventDefault();
+            const factor = e.deltaY > 0 ? 1 / 1.08 : 1.08;
+            setCanvasPreviewZoom(state.canvasPreviewZoom * factor);
+        }, { passive: false });
+    }
 
     // Make the entire sidebar content area a drop zone
     const sidebarContent = screenshotList.closest('.sidebar-content');
@@ -6801,7 +6840,7 @@ function getCanvasDimensions() {
 function updateCanvas() {
     saveState(); // Persist state on every update
     const dims = getCanvasDimensions();
-    const scale = getPreviewScale(dims);
+    const scale = getEffectivePreviewScale(dims);
     canvas.width = dims.width;
     canvas.height = dims.height;
 
@@ -6857,7 +6896,7 @@ function updateCanvas() {
 
 function updateSidePreviews() {
     const dims = getCanvasDimensions();
-    const previewScale = getPreviewScale(dims);
+    const previewScale = getEffectivePreviewScale(dims);
 
     // Initialize Three.js if any screenshot uses 3D mode (needed for side previews)
     const any3D = state.screenshots.some(s => s.screenshot?.use3D);
@@ -6877,9 +6916,9 @@ function updateSidePreviews() {
         }
     }
 
-    // Calculate main canvas display width and position side previews with 10px gap
+    // Calculate main canvas display width and keep side previews tight to the active canvas.
     const mainCanvasWidth = dims.width * previewScale;
-    const gap = 10;
+    const gap = SIDE_PREVIEW_GAP;
     const sideOffset = mainCanvasWidth / 2 + gap;
     const farSideOffset = sideOffset + mainCanvasWidth + gap;
 
@@ -6941,15 +6980,37 @@ function updateSidePreviews() {
 }
 
 function getPreviewScale(dims) {
-    const stageWidth = canvasStageShell?.clientWidth || previewStrip?.clientWidth || 900;
-    const stageHeight = canvasStageShell?.clientHeight || previewStrip?.clientHeight || 900;
-    const stageHeaderHeight = document.querySelector('.canvas-stage-header')?.offsetHeight || 0;
-    const stageToolbarHeight = document.querySelector('.canvas-stage-toolbar')?.offsetHeight || 0;
-    const horizontalPadding = window.innerWidth < 960 ? 48 : 150;
-    const verticalPadding = window.innerWidth < 960 ? 56 : 120;
-    const maxPreviewWidth = Math.max(240, Math.min(560, stageWidth - horizontalPadding));
-    const maxPreviewHeight = Math.max(340, Math.min(820, stageHeight - stageHeaderHeight - stageToolbarHeight - verticalPadding));
+    const maxPreviewWidth = 400;
+    const maxPreviewHeight = 700;
     return Math.min(maxPreviewWidth / dims.width, maxPreviewHeight / dims.height);
+}
+
+function getEffectivePreviewScale(dims) {
+    return getPreviewScale(dims) * CANVAS_PREVIEW_BASE_BOOST * clampCanvasPreviewZoom(state.canvasPreviewZoom);
+}
+
+function setCanvasPreviewZoom(value) {
+    state.canvasPreviewZoom = clampCanvasPreviewZoom(value);
+    syncCanvasZoomUI();
+    updateCanvas();
+}
+
+function syncCanvasZoomUI() {
+    const z = clampCanvasPreviewZoom(state.canvasPreviewZoom);
+    state.canvasPreviewZoom = z;
+    const slider = document.getElementById('canvas-zoom-slider');
+    const label = document.getElementById('canvas-zoom-label');
+    if (slider) {
+        const pct = Math.round(z * 100);
+        slider.value = String(pct);
+    }
+    if (label) {
+        label.textContent = Math.round(z * 100) + '%';
+    }
+    const outBtn = document.getElementById('canvas-zoom-out');
+    const inBtn = document.getElementById('canvas-zoom-in');
+    if (outBtn) outBtn.disabled = z <= CANVAS_ZOOM_MIN + 1e-6;
+    if (inBtn) inBtn.disabled = z >= CANVAS_ZOOM_MAX - 1e-6;
 }
 
 function slideToScreenshot(newIndex, direction) {
@@ -6957,8 +7018,8 @@ function slideToScreenshot(newIndex, direction) {
     previewStrip.classList.add('sliding');
 
     const dims = getCanvasDimensions();
-    const previewScale = getPreviewScale(dims);
-    const slideDistance = dims.width * previewScale + 10; // canvas width + gap
+    const previewScale = getEffectivePreviewScale(dims);
+    const slideDistance = dims.width * previewScale + SIDE_PREVIEW_GAP; // canvas width + gap
 
     const newPrevIndex = newIndex - 1;
     const newNextIndex = newIndex + 1;
