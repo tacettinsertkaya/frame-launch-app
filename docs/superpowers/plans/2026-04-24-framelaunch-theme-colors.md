@@ -1,8 +1,8 @@
-# FrameLaunch Theme Colors Implementation Plan
+# Frame Launch Theme Colors Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Rebrand the editor UI so `Auto`, `Light`, and `Dark` themes use the live FrameLaunch warm black, cream, and gold palette.
+**Goal:** Rebrand the editor UI so `Auto`, `Light`, and `Dark` themes use the live Frame Launch warm black, cream, and gold palette.
 
 **Architecture:** Keep the existing theme preference flow in `app.js` unchanged. Update the existing CSS custom properties in `styles.css`, then replace hardcoded blue editor chrome states with the same accent tokens. Do not change project data, screenshot canvas defaults, or exported screenshot output.
 
@@ -290,7 +290,7 @@ with:
                 <div class="modal-icon" style="background: var(--accent-subtle-strong);">
 ```
 
-- [ ] **Step 8: Fix crop overlay handles to use FrameLaunch gold**
+- [ ] **Step 8: Fix crop overlay handles to use Frame Launch gold**
 
 In `app.js`, replace:
 
@@ -379,7 +379,7 @@ Open Settings, choose `Auto`, save, and verify:
 
 - `app.js` still stores `themePreference` as `auto`.
 - `document.documentElement.dataset.theme` is removed for auto mode.
-- The browser/system color scheme controls which FrameLaunch palette is used.
+- The browser/system color scheme controls which Frame Launch palette is used.
 
 - [ ] **Step 5: Check screenshot output is unaffected**
 

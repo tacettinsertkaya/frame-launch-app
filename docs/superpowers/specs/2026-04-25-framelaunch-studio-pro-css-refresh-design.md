@@ -1,8 +1,8 @@
-# FrameLaunch Studio Pro CSS Refresh Design
+# Frame Launch Studio Pro CSS Refresh Design
 
 ## Goal
 
-Make the FrameLaunch editor feel more polished, premium, animated, and visually refined while preserving the existing editor workflow and behavior.
+Make the Frame Launch editor feel more polished, premium, animated, and visually refined while preserving the existing editor workflow and behavior.
 
 The chosen direction is **Studio Pro**: warm, solid, refined, and creation-suite inspired. Both light and dark themes should feel equally considered. Light mode should read as a warm creative studio; dark mode should read as a refined pro editor with warm accents.
 

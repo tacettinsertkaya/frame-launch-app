@@ -1,8 +1,8 @@
-# FrameLaunch Launch Console CSS Refresh Implementation Plan
+# Frame Launch Launch Console CSS Refresh Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add a bold, animated FrameLaunch "Launch Console" visual refresh to the editor chrome while preserving app behavior and screenshot export output.
+**Goal:** Add a bold, animated Frame Launch "Launch Console" visual refresh to the editor chrome while preserving app behavior and screenshot export output.
 
 **Architecture:** Implement this as a CSS-first enhancement layer in `styles.css`, appended near the end of the file so it can override existing component styles without restructuring the large stylesheet. Keep HTML, JavaScript, theme preference flow, IndexedDB data, and canvas drawing logic unchanged.
 

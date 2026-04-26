@@ -1,16 +1,16 @@
-# FrameLaunch Theme Colors Design
+# Frame Launch Theme Colors Design
 
 ## Goal
 
-Rebrand the editor UI so its light, dark, and auto themes match the live FrameLaunch landing page at `https://framelaunch.store/`.
+Rebrand the editor UI so its light, dark, and auto themes match the live Frame Launch landing page at `https://frame-launch.store/`.
 
-The change should replace the current Apple-blue editor identity with FrameLaunch's warm black, cream, and gold palette while preserving the existing editor layout and theme selector behavior.
+The change should replace the current Apple-blue editor identity with Frame Launch's warm black, cream, and gold palette while preserving the existing editor layout and theme selector behavior.
 
 ## Approved Approach
 
 Use a token swap plus targeted cleanup.
 
-The app already centralizes most UI colors in `styles.css` custom properties, so the core change should update the existing theme variables for default, light, and dark modes. In addition, any obvious hardcoded blue hover, focus, selected, or upload states should be changed to use the existing accent token so they inherit the FrameLaunch palette.
+The app already centralizes most UI colors in `styles.css` custom properties, so the core change should update the existing theme variables for default, light, and dark modes. In addition, any obvious hardcoded blue hover, focus, selected, or upload states should be changed to use the existing accent token so they inherit the Frame Launch palette.
 
 This keeps the change small and maintainable while avoiding a full design-system refactor.
 
@@ -32,8 +32,8 @@ Use the landing page palette as the source of truth:
 Keep the existing `Auto / Light / Dark` settings exactly as they are from a user-facing behavior perspective.
 
 - `Auto` continues to follow the user's system color scheme.
-- `Light` forces the warm cream FrameLaunch palette.
-- `Dark` forces the warm black FrameLaunch palette.
+- `Light` forces the warm cream Frame Launch palette.
+- `Dark` forces the warm black Frame Launch palette.
 - Existing persisted `themePreference` values remain valid.
 - No migration or new storage key is required.
 
@@ -105,4 +105,4 @@ Verification should include:
 
 The repository currently appears to be a plain copied working directory rather than an initialized git repository. If git is later initialized, the design document and implementation changes should be committed with a message similar to:
 
-`design: define FrameLaunch theme color update`
+`design: define Frame Launch theme color update`

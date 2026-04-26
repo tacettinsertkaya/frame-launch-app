@@ -53,7 +53,7 @@ assert(
 );
 assert(
     landingHtml.includes('Frame<span>Launch</span>'),
-    'landing page should include the FrameLaunch wordmark'
+    'landing page should include the Frame Launch wordmark'
 );
 
 assert(

@@ -1,8 +1,8 @@
-# FrameLaunch Launch Console CSS Refresh Design
+# Frame Launch Launch Console CSS Refresh Design
 
 ## Goal
 
-Make the FrameLaunch editor feel more premium, animated, and brand-aligned while preserving the existing editor structure and behavior.
+Make the Frame Launch editor feel more premium, animated, and brand-aligned while preserving the existing editor structure and behavior.
 
 The chosen direction is a **Launch Console** style: dark, energetic, black-and-gold, with stronger glow, depth, motion, and showcase-style interactions across the whole editor.
 
@@ -22,7 +22,7 @@ The editor should keep the familiar three-column tool layout:
 - Center canvas preview area
 - Right sidebar for editing controls
 
-The refreshed UI should feel like a FrameLaunch control console:
+The refreshed UI should feel like a Frame Launch control console:
 
 - Near-black surfaces with warm cream text
 - Gold active states and highlights
@@ -86,7 +86,7 @@ Keep the existing `Auto / Light / Dark` settings behavior.
 - No new theme preference values are added.
 - No migration is needed.
 
-The Launch Console treatment should be strongest in dark mode because it matches the FrameLaunch black-and-gold identity. Light mode should remain readable and polished, but can use calmer warm cream surfaces with gold accents.
+The Launch Console treatment should be strongest in dark mode because it matches the Frame Launch black-and-gold identity. Light mode should remain readable and polished, but can use calmer warm cream surfaces with gold accents.
 
 ## Data Flow
 

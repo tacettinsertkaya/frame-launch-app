@@ -1,8 +1,8 @@
-# FrameLaunch Studio Pro CSS Refresh Implementation Plan
+# Frame Launch Studio Pro CSS Refresh Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Refresh the FrameLaunch editor chrome into a polished Studio Pro UI using CSS only, with equal care for light and dark themes.
+**Goal:** Refresh the Frame Launch editor chrome into a polished Studio Pro UI using CSS only, with equal care for light and dark themes.
 
 **Architecture:** Keep the existing `index.html`, `app.js`, saved data, canvas rendering, and export behavior unchanged. Implement the visual refresh through `styles.css` theme tokens, scoped component styling, lightweight transitions, and reduced-motion handling.
 

@@ -9,7 +9,7 @@ A free, open-source tool for creating beautiful App Store screenshots with custo
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-> 🍋 **Built by [YuzuHub](https://yuzuhub.com)** — We build smart AI products in Düsseldorf, Germany. Check out [yuzu.chat](https://yuzu.chat), [Eno](https://eno.yuzuhub.com), [VoltPlan](https://voltplan.app) and more.
+> 🍋 **Built by [YuzuHub](https://framelaunch.store)** — We build smart AI products in Düsseldorf, Germany. Check out [yuzu.chat](https://yuzu.chat), [Eno](https://eno.framelaunch.store), [VoltPlan](https://voltplan.app) and more.
 
 
 ## Features
@@ -184,8 +184,8 @@ Built something with this tool? Add your app to the list by submitting a pull re
 
 | App | Description | Link |
 |-----|-------------|------|
-| Cable | Manage your 12V systems like Boats and RVs | [cable.yuzuhub.com](https://cable.yuzuhub.com) |
-| Eno | Wine pairings and food pairings made easy | [eno.yuzuhub.com](https://eno.yuzuhub.com) |
+| Cable | Manage your 12V systems like Boats and RVs | [cable.framelaunch.store](https://cable.framelaunch.store) |
+| Eno | Wine pairings and food pairings made easy | [eno.framelaunch.store](https://eno.framelaunch.store) |
 | TravelRates Currency Converter* | Exchange Rates for Travelers | [apple.com](https://apps.apple.com/sg/app/travelrates-currency-converter/id6756080378) |
 | Trakz Sales Tracker | Manage sales for restaurants and small businesses | [apple.com](https://apps.apple.com/us/app/trakz-sales-tracker/id6748954468) |
 | AI Soccer Insights Football IQ | AI-powered football predictions and insights | [apple.com](https://apps.apple.com/us/app/ai-soccer-insights-football-iq/id6592649804) |
@@ -205,4 +205,4 @@ MIT License - feel free to use, modify, and distribute.
 
 ## Author
 
-Proudly vibe coded by [Stefan](https://github.com/BlackMac) at [YuzuHub](https://yuzuhub.com/en) — building smart AI products from Düsseldorf, Germany.
+Proudly vibe coded by [Criccletech](https://github.com/BlackMac) at [YuzuHub](https://framelaunch.store/en) — building smart AI products from Düsseldorf, Germany.

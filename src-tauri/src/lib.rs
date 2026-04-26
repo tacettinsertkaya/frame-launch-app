@@ -89,7 +89,7 @@ pub fn run() {
             let report_issue =
                 MenuItemBuilder::with_id("report-issue", "Report Issue").build(handle)?;
             let visit_website =
-                MenuItemBuilder::with_id("visit-website", "Visit yuzuhub.com").build(handle)?;
+                MenuItemBuilder::with_id("visit-website", "Visit framelaunch.store").build(handle)?;
 
             let help_menu = SubmenuBuilder::new(handle, "Help")
                 .item(&documentation)
@@ -135,7 +135,7 @@ pub fn run() {
                     }
                     "visit-website" => {
                         let _ = tauri_plugin_opener::open_url(
-                            "https://yuzuhub.com/en",
+                            "https://framelaunch.store/en",
                             None::<&str>,
                         );
                     }
