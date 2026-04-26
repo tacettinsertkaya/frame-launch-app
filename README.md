@@ -11,6 +11,7 @@ A free, open-source tool for creating beautiful App Store screenshots with custo
 
 > 🍋 **Built by [YuzuHub](https://yuzuhub.com)** — We build smart AI products in Düsseldorf, Germany. Check out [yuzu.chat](https://yuzu.chat), [Eno](https://eno.yuzuhub.com), [VoltPlan](https://voltplan.app) and more.
 
+
 ## Features
 
 ### Output & Export
