@@ -76,14 +76,14 @@
 </head>
 
 <body class="editor-page">
-    <header class="editor-header">
+    <header class="editor-header" role="banner">
         <a class="editor-header-brand" href="/" title="Back to home">
-            <img class="editor-header-mark" src="img/logo.png" alt="Frame Launch" width="36" height="36">
+            <img class="editor-header-mark" src="img/logo.png" alt="" width="44" height="44">
             <span class="editor-header-word">Frame<span>Launch</span></span>
         </a>
-        <div class="editor-header-actions">
-            <div class="editor-theme-selector" title="Appearance">
-                <div class="btn-group" id="theme-selector">
+        <nav class="editor-header-actions" aria-label="Appearance and language">
+            <div class="editor-theme-selector">
+                <div class="btn-group" id="theme-selector" role="group" aria-label="Color theme">
                     <button type="button" data-theme="auto" class="active" title="Match system">Auto</button>
                     <button type="button" data-theme="light" title="Light theme">Light</button>
                     <button type="button" data-theme="dark" title="Dark theme">Dark</button>
@@ -91,7 +91,7 @@
             </div>
             <div class="editor-lang-selector">
                 <button class="editor-lang-toggle" aria-haspopup="listbox" aria-expanded="false">
-                    <span class="editor-lang-flag" aria-hidden="true">🇬🇧</span>
+                    <span class="editor-lang-flag" aria-hidden="true">🇺🇸</span>
                     <span class="editor-lang-label">EN</span>
                     <svg class="editor-lang-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"
                         aria-hidden="true">
@@ -101,7 +101,7 @@
                 </button>
                 <ul class="editor-lang-menu" role="listbox" aria-label="Language">
                     <li role="option" data-lang="en" aria-selected="true">
-                        <span class="editor-lang-flag" aria-hidden="true">🇬🇧</span>
+                        <span class="editor-lang-flag" aria-hidden="true">🇺🇸</span>
                         <span>English</span>
                     </li>
                     <li role="option" data-lang="tr" aria-selected="false">
@@ -126,7 +126,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </nav>
     </header>
     <div class="app-container">
         <!-- Left Sidebar - Screenshots -->
@@ -2182,7 +2182,7 @@
     <script>
         (function () {
             var langMeta = {
-                en: { flag: '🇬🇧', label: 'EN' },
+                en: { flag: '🇺🇸', label: 'EN' },
                 tr: { flag: '🇹🇷', label: 'TR' },
                 de: { flag: '🇩🇪', label: 'DE' },
                 fr: { flag: '🇫🇷', label: 'FR' },

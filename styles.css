@@ -18,6 +18,7 @@
     --overlay-bg: rgba(0, 0, 0, 0.72);
     --accent-subtle: rgba(232, 198, 16, 0.08);
     --accent-subtle-strong: rgba(232, 198, 16, 0.16);
+    --editor-header-height: 52px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -129,20 +130,18 @@ html.tauri-app .right-sidebar {
 
 /* ── Editor Header ── */
 
-:root {
-    --editor-header-height: 44px;
-}
-
 .editor-header {
     position: relative;
     z-index: 50;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
     height: var(--editor-header-height);
     padding: 0 16px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--border-color) 55%, transparent);
     flex-shrink: 0;
     /* z-index + position: required so the header (and the lang dropdown) stack above
        .app-container, which is position: relative; z-index: 1; */
@@ -151,7 +150,8 @@ html.tauri-app .right-sidebar {
 .editor-header-brand {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    flex-shrink: 0;
     text-decoration: none;
     color: var(--text-primary);
     font-weight: 800;
@@ -164,15 +164,15 @@ html.tauri-app .right-sidebar {
 }
 
 .editor-header-mark {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
     object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(232, 198, 16, 0.25));
+    filter: drop-shadow(0 4px 10px rgba(232, 198, 16, 0.28));
 }
 
 .editor-header-word {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1;
     color: var(--text-primary);
 }
@@ -184,19 +184,38 @@ html.tauri-app .right-sidebar {
 .editor-header-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.editor-theme-selector {
+    flex: 0 0 auto;
+    min-width: min-content;
 }
 
 .editor-theme-selector .btn-group {
     flex: 0 0 auto;
+    width: max-content;
+    min-width: max-content;
+    align-items: stretch;
     padding: 2px;
     gap: 1px;
+    min-height: 32px;
 }
 
+/* Global .btn-group uses flex:1 + width:0 so segments share space; in the compact
+   header that collapses the control (~68px). Size each chip to its label instead. */
 .editor-theme-selector .btn-group button {
-    padding: 4px 8px;
-    font-size: 11px;
+    flex: 0 0 auto;
+    width: auto;
     min-width: 0;
+    padding: 4px 10px;
+    font-size: 11px;
+    line-height: 1.2;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .editor-lang-selector {
@@ -204,10 +223,11 @@ html.tauri-app .right-sidebar {
 }
 
 .editor-lang-toggle {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 5px 10px;
+    gap: 6px;
+    min-height: 32px;
+    padding: 4px 10px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     background: var(--bg-tertiary);
@@ -2872,6 +2892,17 @@ input[type="range"]:active::-webkit-slider-thumb {
 .sidebar-header-buttons {
     display: flex;
     gap: 4px;
+}
+
+/* Hidden but present in DOM: Tauri menu can still trigger #settings-btn etc. */
+body.editor-page #magical-titles-btn,
+body.editor-page #about-btn,
+body.editor-page #settings-btn {
+    display: none !important;
+}
+
+body.editor-page #language-picker {
+    display: none !important;
 }
 
 .settings-btn img {

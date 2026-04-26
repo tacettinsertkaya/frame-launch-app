@@ -426,7 +426,7 @@
 
     var langMeta = {
         tr: { flag: '🇹🇷', label: 'TR', htmlLang: 'tr' },
-        en: { flag: '🇬🇧', label: 'EN', htmlLang: 'en' },
+        en: { flag: '🇺🇸', label: 'EN', htmlLang: 'en' },
         de: { flag: '🇩🇪', label: 'DE', htmlLang: 'de' },
         fr: { flag: '🇫🇷', label: 'FR', htmlLang: 'fr' },
         es: { flag: '🇪🇸', label: 'ES', htmlLang: 'es' },
