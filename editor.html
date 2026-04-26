@@ -81,6 +81,46 @@
             <img class="editor-header-mark" src="img/logo.png" alt="" width="44" height="44">
             <span class="editor-header-word">Frame<span>Launch</span></span>
         </a>
+        <div class="editor-header-project" aria-label="Project">
+            <div class="project-controls">
+                <div class="project-dropdown" id="project-dropdown">
+                    <button class="project-trigger" id="project-trigger" type="button">
+                        <div class="project-trigger-info">
+                            <span class="project-trigger-name" id="project-trigger-name">Default Project</span>
+                            <span class="project-trigger-meta" id="project-trigger-meta">0 screenshots</span>
+                        </div>
+                        <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </button>
+                    <div class="project-menu" id="project-menu">
+                        <!-- Projects will be added here dynamically -->
+                    </div>
+                </div>
+                <div class="project-buttons">
+                    <button class="project-btn" id="new-project-btn" type="button" title="New Project">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                    </button>
+                    <button class="project-btn" id="rename-project-btn" type="button" title="Rename Project">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                        </svg>
+                    </button>
+                    <button class="project-btn danger" id="delete-project-btn" type="button" title="Delete Project">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3,6 5,6 21,6" />
+                            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
         <nav class="editor-header-actions" aria-label="Appearance and language">
             <div class="editor-theme-selector">
                 <div class="btn-group" id="theme-selector" role="group" aria-label="Color theme">
@@ -182,46 +222,6 @@
                         </button>
                     </div>
                 </div>
-                <div class="project-controls">
-                    <div class="project-dropdown" id="project-dropdown">
-                        <button class="project-trigger" id="project-trigger">
-                            <div class="project-trigger-info">
-                                <span class="project-trigger-name" id="project-trigger-name">Default Project</span>
-                                <span class="project-trigger-meta" id="project-trigger-meta">0 screenshots</span>
-                            </div>
-                            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <polyline points="6 9 12 15 18 9" />
-                            </svg>
-                        </button>
-                        <div class="project-menu" id="project-menu">
-                            <!-- Projects will be added here dynamically -->
-                        </div>
-                    </div>
-                    <div class="project-buttons">
-                        <button class="project-btn" id="new-project-btn" title="New Project">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M12 5v14M5 12h14" />
-                            </svg>
-                        </button>
-                        <button class="project-btn" id="rename-project-btn" title="Rename Project">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
-                            </svg>
-                        </button>
-                        <button class="project-btn danger" id="delete-project-btn" title="Delete Project">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="3,6 5,6 21,6" />
-                                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="divider"></div>
 
                 <h2>Screenshots</h2>
 
