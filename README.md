@@ -77,7 +77,7 @@ The public web launch uses:
 - guide and template pages for AdSense-readable publisher content
 - disabled-by-default ad scaffolding in `ad-config.js`
 
-Before requesting AdSense review, add the real AdSense publisher line to `ads.txt`, set `ADSENSE_CLIENT_ID` and slot IDs in `ad-config.js`, and keep `ads.enabled` false until the site is approved and consent messaging is configured.
+Before enabling live ads, add the real slot IDs in `ad-config.js` and keep `ads.enabled` false until AdSense approval and consent messaging are configured. The current `ads.txt` and `ADSENSE_CLIENT_ID` are already wired for the configured publisher account.
 
 ---
 

@@ -1,3 +1,1 @@
-# Frame Launch AdSense inventory file.
-# Add the real AdSense publisher line before requesting AdSense review:
-# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+google.com, pub-2381519809541067, DIRECT, f08c47fec0942fa0

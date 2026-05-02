@@ -4,6 +4,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 
 const requiredRoutes = [
+    'Dockerfile',
     'index.html',
     'editor.html',
     'privacy.html',
@@ -63,7 +64,7 @@ assert(!editor.includes('data-ad-slot='), 'editor.html should not include ad slo
 assert(!editor.includes('/ads.js'), 'editor.html should not load ad scripts');
 assert(adConfig.includes('ADSENSE_CLIENT_ID'), 'ad config should expose ADSENSE_CLIENT_ID');
 assert(adConfig.includes('enabled: false'), 'ads should be disabled by default');
-assert(adsTxt.includes('pub-XXXXXXXXXXXXXXXX'), 'ads.txt should explain where to add the real publisher ID');
+assert(adsTxt.trim() === 'google.com, pub-2381519809541067, DIRECT, f08c47fec0942fa0', 'ads.txt should contain the configured AdSense publisher ID');
 assert(nginx.includes('Content-Security-Policy-Report-Only'), 'nginx should include CSP report-only header');
 assert(nginx.includes('Strict-Transport-Security'), 'nginx should include HSTS header');
 
