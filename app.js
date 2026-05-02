@@ -3245,7 +3245,7 @@ function drawSnapGuides() {
     const scale = dims.width / 400;
 
     ctx.save();
-    ctx.strokeStyle = 'rgba(120, 170, 255, 0.45)';
+    ctx.strokeStyle = 'rgba(230, 193, 17, 0.45)';
     ctx.lineWidth = Math.max(1, 1.5 * scale);
     ctx.setLineDash([12 * scale, 8 * scale]);
 
@@ -3503,7 +3503,7 @@ function updateCropPreview() {
     ctx2.restore();
 
     // Crop border
-    ctx2.strokeStyle = 'rgba(232, 198, 16, 0.9)';
+    ctx2.strokeStyle = 'rgba(230, 193, 17, 0.9)';
     ctx2.lineWidth = 2;
     ctx2.strokeRect(rx, ry, rw, rh);
 
@@ -3524,7 +3524,7 @@ function updateCropPreview() {
     ];
 
     ctx2.fillStyle = '#ffffff';
-    ctx2.strokeStyle = 'rgba(232, 198, 16, 1)';
+    ctx2.strokeStyle = 'rgba(230, 193, 17, 1)';
     ctx2.lineWidth = 1.5;
     [...handles, ...midHandles].forEach(h => {
         ctx2.fillRect(h.x - handleSize / 2, h.y - handleSize / 2, handleSize, handleSize);
@@ -5617,8 +5617,8 @@ function showTranslateConfirmDialog(providerName) {
 
         overlay.innerHTML = `
             <div class="modal" style="max-width: 380px;">
-                <div class="modal-icon" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #764ba2;">
+                <div class="modal-icon" style="background: var(--accent-subtle-strong);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent);">
                         <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2v3M22 22l-5-10-5 10M14 18h6"/>
                     </svg>
                 </div>
@@ -5649,7 +5649,7 @@ function showTranslateConfirmDialog(providerName) {
 
                 <div class="modal-buttons">
                     <button class="modal-btn modal-btn-cancel" id="translate-cancel">Cancel</button>
-                    <button class="modal-btn modal-btn-confirm" id="translate-confirm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">Translate</button>
+                    <button class="modal-btn modal-btn-confirm" id="translate-confirm" style="background: var(--accent); color: var(--theme-black);">Translate</button>
                 </div>
             </div>
         `;
@@ -5760,8 +5760,8 @@ async function translateAllText() {
     progressOverlay.id = 'translate-progress-overlay';
     progressOverlay.innerHTML = `
         <div class="modal" style="text-align: center; min-width: 320px;">
-            <div class="modal-icon" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #764ba2; animation: spin 1s linear infinite;">
+            <div class="modal-icon" style="background: var(--accent-subtle-strong);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent); animation: spin 1s linear infinite;">
                     <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                 </svg>
             </div>
@@ -6530,12 +6530,6 @@ function updateScreenshotList() {
                     </svg>
                 </button>
                 <div class="screenshot-menu" data-index="${index}">
-                    <button class="screenshot-menu-item screenshot-translations" data-index="${index}">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2v3M22 22l-5-10-5 10M14 18h6"/>
-                        </svg>
-                        Manage Translations...
-                    </button>
                     <button class="screenshot-menu-item screenshot-replace" data-index="${index}">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
@@ -6746,16 +6740,6 @@ function updateScreenshotList() {
                     if (m !== menu) m.classList.remove('open');
                 });
                 menu.classList.toggle('open');
-            });
-        }
-
-        // Manage Translations button handler
-        const translationsBtn = item.querySelector('.screenshot-translations');
-        if (translationsBtn) {
-            translationsBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                menu?.classList.remove('open');
-                openScreenshotTranslationsModal(index);
             });
         }
 
