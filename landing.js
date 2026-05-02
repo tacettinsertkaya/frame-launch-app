@@ -1,12 +1,12 @@
 (function () {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const nav = document.querySelector('.landing-nav');
-    const yearTarget = document.querySelector('[data-current-year]');
+    const yearTargets = Array.from(document.querySelectorAll('[data-current-year]'));
     const statTargets = Array.from(document.querySelectorAll('[data-stat-value]'));
 
-    if (yearTarget) {
-        yearTarget.textContent = String(new Date().getFullYear());
-    }
+    yearTargets.forEach(function (target) {
+        target.textContent = String(new Date().getFullYear());
+    });
 
     function syncNav() {
         if (!nav) return;
@@ -148,8 +148,8 @@
             footer_features: 'Özellikler',
         },
         en: {
-            page_title: 'Frame Launch - Framelaunch screenshots in seconds',
-            meta_desc: 'Create Framelaunch and Play Store marketing images in your browser, free, with no sign-up. No watermark.',
+            page_title: 'Frame Launch - App Store screenshots in seconds',
+            meta_desc: 'Create App Store, Google Play, and marketing screenshots in your browser. Free, no account, no watermark.',
             nav_aria: 'Main navigation',
             lang_aria: 'Language',
             lang_menu_aria: 'Choose language',
@@ -157,8 +157,8 @@
             nav_how: 'How it works',
             nav_cta: 'Open Editor',
             hero_pill: 'No account · No watermark · No limits · Your data stays in your browser',
-            hero_title: 'Create your Framelaunch screenshots <span>in seconds</span>',
-            hero_lede: 'Frame Launch is the fast, free, and privacy-friendly way to design professional screenshots for Framelaunch and Play Store submissions.',
+            hero_title: 'Create your app screenshots <span>in seconds</span>',
+            hero_lede: 'Frame Launch is the fast, free, and privacy-friendly way to design professional screenshots for App Store, Google Play, social, and launch pages.',
             hero_cta_primary: 'Start creating now <span aria-hidden="true">→</span>',
             hero_cta_secondary: 'Explore features',
             stat_devices: 'Device sizes',

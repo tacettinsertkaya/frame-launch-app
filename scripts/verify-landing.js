@@ -36,15 +36,17 @@ assert(
 );
 
 assert(
-    landingHtml.includes('<link rel="stylesheet" href="landing.css">'),
+    landingHtml.includes('<link rel="stylesheet" href="/landing.css">') ||
+        landingHtml.includes('<link rel="stylesheet" href="landing.css">'),
     'landing.html should load landing.css'
 );
 assert(
-    landingHtml.includes('<script src="landing.js" defer></script>'),
+    landingHtml.includes('<script src="/landing.js" defer></script>') ||
+        landingHtml.includes('<script src="landing.js" defer></script>'),
     'landing.html should load landing.js with defer'
 );
 assert(
-    landingHtml.includes('href="editor.html"'),
+    landingHtml.includes('href="/editor.html"') || landingHtml.includes('href="editor.html"'),
     'landing CTAs should point to editor.html'
 );
 assert(

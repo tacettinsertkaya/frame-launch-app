@@ -1,11 +1,11 @@
-# Framelaunch Screenshot Generator
+# Frame Launch Screenshot Generator
 
-A free, open-source tool for creating beautiful Framelaunch screenshots with customizable backgrounds, text overlays, and 3D device mockups.
+A free, open-source tool for creating beautiful App Store, Google Play, and marketing screenshots with customizable backgrounds, text overlays, and 3D device mockups.
 
 
-**[Start using it now. Hosted on GitHub Pages](https://yuzu-hub.github.io/appscreen/)**
+**[Start using it now at framelaunch.store](https://framelaunch.store/)**
 
-![Framelaunch Screenshot Generator](img/screenshot-generator.png)
+![Frame Launch Screenshot Generator](img/logo.png)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -15,7 +15,7 @@ A free, open-source tool for creating beautiful Framelaunch screenshots with cus
 ## Features
 
 ### Output & Export
-- **Multiple Output Sizes**: iPhone 6.9", 6.7", 6.5", 5.5" and iPad 12.9", 11" Framelaunch requirements, plus custom sizes
+- **Multiple Output Sizes**: iPhone 6.9", 6.7", 6.5", 5.5" and iPad 12.9", 11" store requirements, plus custom sizes
 - **Batch Export**: Export all screenshots at once as a ZIP file
 - **Per-Screenshot Settings**: Each screenshot can have its own background, device settings, and text
 
@@ -65,7 +65,19 @@ A free, open-source tool for creating beautiful Framelaunch screenshots with cus
 
 ### Just Want to Use It?
 
-Visit **[yuzu-hub.github.io/appscreen](https://yuzu-hub.github.io/appscreen/)** to use the tool directly in your browser. No installation needed!
+Visit **[framelaunch.store](https://framelaunch.store/)** to use the tool directly in your browser. No installation needed!
+
+## Production Launch
+
+The public web launch uses:
+
+- `/` as the English-first landing page
+- `/editor.html` as the browser editor
+- trust pages at `/privacy.html`, `/terms.html`, `/cookies.html`, `/about.html`, and `/contact.html`
+- guide and template pages for AdSense-readable publisher content
+- disabled-by-default ad scaffolding in `ad-config.js`
+
+Before requesting AdSense review, add the real AdSense publisher line to `ads.txt`, set `ADSENSE_CLIENT_ID` and slot IDs in `ad-config.js`, and keep `ads.enabled` false until the site is approved and consent messaging is configured.
 
 ---
 
@@ -205,4 +217,4 @@ MIT License - feel free to use, modify, and distribute.
 
 ## Author
 
-Proudly vibe coded by [Criccletech](https://github.com/BlackMac) at [YuzuHub](https://framelaunch.store/en) — building smart AI products from Düsseldorf, Germany.
+Proudly built by [Frame Launch](https://framelaunch.store/) for app makers shipping store-ready screenshots.

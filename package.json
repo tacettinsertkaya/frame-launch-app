@@ -1,21 +1,23 @@
 {
   "name": "frame.launch.app",
   "version": "1.0.0",
-  "description": "Frame Launch App - Create beautiful Frame Launch App marketing screenshots",
+  "description": "Frame Launch - free browser editor for App Store, Google Play, and marketing screenshots",
   "author": {
     "name": "tacettin",
     "email": "tacettinsertkaya@outlook.com",
-    "url": "https://criccletech.com"
+    "url": "https://framelaunch.store"
   },
   "license": "MIT",
-  "homepage": "https://criccletech.com",
+  "homepage": "https://framelaunch.store",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tacettinsertkaya"
+    "url": "https://github.com/YUZU-Hub/appscreen.git"
   },
   "scripts": {
     "serve": "python3 -m http.server 8000",
-    "test": "node tests/history-manager.test.js",
+    "test": "node tests/history-manager.test.js && npm run test:landing && npm run test:production",
+    "test:landing": "node scripts/verify-landing.js",
+    "test:production": "node scripts/verify-production.js",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build"
