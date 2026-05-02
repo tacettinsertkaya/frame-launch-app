@@ -21,11 +21,21 @@ const requiredRoutes = [
     'ads.js',
     'consent.js',
     'guides/index.html',
+    'guides/app-store-screenshot-generator.html',
+    'guides/free-app-screenshot-maker-no-watermark.html',
     'guides/app-store-screenshot-sizes.html',
     'guides/google-play-graphics.html',
     'guides/screenshot-localization.html',
     'guides/marketing-screenshot-design.html',
     'guides/frame-launch-workflow.html',
+    'guides/product-hunt-launch-image-checklist.html',
+    'alternatives/index.html',
+    'alternatives/app-launchpad-alternative.html',
+    'alternatives/appscreens-alternative.html',
+    'alternatives/appure-alternative.html',
+    'alternatives/storeshots-alternative.html',
+    'alternatives/canva-vs-framelaunch.html',
+    'alternatives/figma-templates-vs-framelaunch.html',
 ];
 
 function read(relativePath) {
@@ -75,11 +85,21 @@ assert(nginx.includes('Strict-Transport-Security'), 'nginx should include HSTS h
     'https://framelaunch.store/about.html',
     'https://framelaunch.store/cookies.html',
     'https://framelaunch.store/templates.html',
+    'https://framelaunch.store/guides/app-store-screenshot-generator.html',
+    'https://framelaunch.store/guides/free-app-screenshot-maker-no-watermark.html',
     'https://framelaunch.store/guides/app-store-screenshot-sizes.html',
     'https://framelaunch.store/guides/google-play-graphics.html',
     'https://framelaunch.store/guides/screenshot-localization.html',
     'https://framelaunch.store/guides/marketing-screenshot-design.html',
     'https://framelaunch.store/guides/frame-launch-workflow.html',
+    'https://framelaunch.store/guides/product-hunt-launch-image-checklist.html',
+    'https://framelaunch.store/alternatives/',
+    'https://framelaunch.store/alternatives/app-launchpad-alternative.html',
+    'https://framelaunch.store/alternatives/appscreens-alternative.html',
+    'https://framelaunch.store/alternatives/appure-alternative.html',
+    'https://framelaunch.store/alternatives/storeshots-alternative.html',
+    'https://framelaunch.store/alternatives/canva-vs-framelaunch.html',
+    'https://framelaunch.store/alternatives/figma-templates-vs-framelaunch.html',
 ].forEach((url) => {
     assert(sitemap.includes(url), `sitemap.xml should include ${url}`);
 });

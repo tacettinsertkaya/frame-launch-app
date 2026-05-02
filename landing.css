@@ -240,6 +240,10 @@
     flex-shrink: 0;
 }
 
+.landing-pill span {
+    min-width: 0;
+}
+
 .landing-hero h1,
 .landing-cta h2,
 .landing-section-heading h2 {
@@ -951,6 +955,10 @@
     color: var(--landing-ink);
 }
 
+.landing-footer .landing-brand-word span {
+    color: #745f00;
+}
+
 .landing-footer p {
     margin: 0;
     color: var(--landing-muted);
@@ -1365,6 +1373,98 @@
     margin-bottom: 0;
 }
 
+.landing-faq-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 44px;
+}
+
+.landing-faq-item {
+    padding: 20px 22px;
+}
+
+.landing-faq-item summary {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 850;
+    line-height: 1.35;
+}
+
+.landing-faq-item p {
+    margin: 14px 0 0;
+}
+
+.landing-lead {
+    background: var(--landing-surface);
+}
+
+.landing-lead-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+    gap: 32px;
+    align-items: center;
+    width: min(1120px, 100%);
+    margin: 0 auto;
+    padding: clamp(24px, 4vw, 44px);
+}
+
+.landing-lead-shell h2 {
+    margin: 0;
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 900;
+    line-height: 1.04;
+}
+
+.landing-lead-shell span {
+    display: block;
+    margin-top: 14px;
+    font-size: 17px;
+}
+
+.landing-lead-form {
+    display: grid;
+    gap: 10px;
+}
+
+.landing-lead-form label {
+    color: #333;
+    font-size: 12px;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.landing-lead-form > div {
+    display: flex;
+    gap: 8px;
+}
+
+.landing-lead-form input {
+    min-width: 0;
+    flex: 1;
+    min-height: 50px;
+    border: 1px solid var(--landing-border);
+    border-radius: 999px;
+    padding: 0 16px;
+    font: inherit;
+}
+
+.landing-lead-form button {
+    min-height: 50px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--landing-yellow);
+    color: #000;
+    padding: 0 18px;
+    font: inherit;
+    font-weight: 850;
+    cursor: pointer;
+}
+
+.landing-lead-form p {
+    margin: 0;
+    font-size: 13px;
+}
+
 .ad-band {
     padding-top: 24px;
     padding-bottom: 24px;
@@ -1447,7 +1547,11 @@
     .landing-stats,
     .landing-feature-grid,
     .content-card-grid,
-    .template-grid {
+    .template-grid,
+    .landing-trust-grid,
+    .landing-proof-grid,
+    .landing-faq-grid,
+    .landing-lead-shell {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -1490,16 +1594,41 @@
 }
 
 @media (max-width: 560px) {
+    .landing-nav {
+        padding: 8px;
+    }
+
     .landing-nav-shell {
+        width: calc(100vw - 16px);
         padding: 8px 10px;
+        gap: 8px;
     }
 
     .landing-brand-word {
-        font-size: 16px;
+        font-size: 15px;
+    }
+
+    .landing-brand-mark {
+        width: 34px;
+        height: 34px;
+    }
+
+    .landing-nav-links {
+        min-width: 0;
+        gap: 4px;
+    }
+
+    .landing-nav-links a {
+        padding: 8px 9px;
+        font-size: 13px;
+    }
+
+    .landing-nav-links > a:not(.landing-nav-cta) {
+        display: none;
     }
 
     .landing-nav-links .landing-nav-cta {
-        padding-inline: 12px;
+        display: none;
     }
 
     .landing-lang-label {
@@ -1511,7 +1640,43 @@
     }
 
     .landing-hero {
-        padding-top: 104px;
+        padding: 104px 14px 0;
+        min-height: auto;
+    }
+
+    .landing-pill {
+        border-radius: 16px;
+        font-size: 11px;
+    }
+
+    .landing-hero h1 {
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: clamp(27px, 7.2vw, 30px);
+        line-height: 1.08;
+        letter-spacing: 0;
+    }
+
+    .landing-hero h1 span {
+        display: block;
+        overflow-wrap: break-word;
+    }
+
+    .landing-cta h2 span {
+        display: inline;
+    }
+
+    .landing-pill {
+        display: flex;
+        width: 100%;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .landing-lede {
+        max-width: 320px;
+        font-size: 16px;
     }
 
     .landing-actions,
@@ -1519,11 +1684,29 @@
         width: 100%;
     }
 
+    .landing-actions {
+        max-width: 340px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .landing-stats,
     .landing-feature-grid,
     .content-card-grid,
-    .template-grid {
+    .template-grid,
+    .landing-trust-grid,
+    .landing-proof-grid,
+    .landing-faq-grid,
+    .landing-lead-shell {
         grid-template-columns: 1fr;
+    }
+
+    .landing-lead-form > div {
+        flex-direction: column;
+    }
+
+    .landing-lead-form button {
+        width: 100%;
     }
 
     .landing-stats {

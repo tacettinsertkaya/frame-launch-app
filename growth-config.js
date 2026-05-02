@@ -1,7 +1,7 @@
 (function () {
     window.FrameLaunchGrowthConfig = {
         analytics: {
-            gtmId: '',
+            gtmId: 'GTM-T85NVQB4',
             ga4MeasurementId: '',
             clarityProjectId: '',
             consentStorageKey: 'fl-growth-consent-v1',

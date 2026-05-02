@@ -6,6 +6,12 @@ const DEFAULT_CANVAS_PREVIEW_ZOOM = 1;
 const CANVAS_PREVIEW_BASE_BOOST = 1;
 const SIDE_PREVIEW_GAP = 10;
 
+function trackGrowthEvent(eventName, payload = {}) {
+    if (window.FrameLaunchGrowth && typeof window.FrameLaunchGrowth.track === 'function') {
+        window.FrameLaunchGrowth.track(eventName, payload);
+    }
+}
+
 const state = {
     screenshots: [],
     selectedIndex: 0,
@@ -3839,13 +3845,14 @@ function setupEventListeners() {
     });
 
     // File upload
-    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+    fileInput.addEventListener('change', (e) => handleFiles(e.target.files, 'file_input'));
 
     // Add screenshots button
     document.getElementById('add-screenshots-btn').addEventListener('click', () => fileInput.click());
 
     // Add blank screen button
     document.getElementById('add-blank-btn').addEventListener('click', () => {
+        trackGrowthEvent('blank_screen_create');
         createNewScreenshot(null, null, 'Blank Screen', null, state.outputDevice);
         state.selectedIndex = state.screenshots.length - 1;
         updateScreenshotList();
@@ -3896,7 +3903,7 @@ function setupEventListeners() {
         if (e.dataTransfer.types.includes('Files')) {
             e.preventDefault();
             sidebarContent.classList.remove('drop-active');
-            handleFiles(e.dataTransfer.files);
+            handleFiles(e.dataTransfer.files, 'drag_drop');
         }
     });
 
@@ -6244,13 +6251,26 @@ function applyPositionPreset(preset) {
     updateCanvas();
 }
 
-function handleFiles(files) {
+function handleFiles(files, source = 'unknown') {
     // Process files sequentially to handle duplicates one at a time
-    processFilesSequentially(Array.from(files).filter(f => f.type.startsWith('image/')));
+    const imageFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (imageFiles.length > 0) {
+        trackGrowthEvent('screenshot_upload', {
+            file_count: imageFiles.length,
+            upload_source: source
+        });
+    }
+    processFilesSequentially(imageFiles);
 }
 
 // Handle files from desktop app (receives array of {dataUrl, name})
 function handleFilesFromDesktop(filesData) {
+    if (filesData.length > 0) {
+        trackGrowthEvent('screenshot_upload', {
+            file_count: filesData.length,
+            upload_source: 'desktop_import'
+        });
+    }
     processDesktopFilesSequentially(filesData);
 }
 
@@ -8352,7 +8372,16 @@ function hexToRgba(hex, alpha) {
 }
 
 async function exportCurrent() {
+    trackGrowthEvent('export_current_click', {
+        screenshot_count: state.screenshots.length,
+        output_device: state.outputDevice
+    });
+
     if (state.screenshots.length === 0) {
+        trackGrowthEvent('error_event', {
+            error_area: 'export_current',
+            error_message: 'No screenshots available'
+        });
         await showAppAlert('Please upload a screenshot first', 'info');
         return;
     }
@@ -8364,10 +8393,25 @@ async function exportCurrent() {
     link.download = `screenshot-${state.selectedIndex + 1}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
+    trackGrowthEvent('export_success', {
+        export_type: 'current',
+        output_device: state.outputDevice,
+        screenshot_count: 1
+    });
 }
 
 async function exportAll() {
+    trackGrowthEvent('export_all_click', {
+        screenshot_count: state.screenshots.length,
+        output_device: state.outputDevice,
+        language: state.currentLanguage
+    });
+
     if (state.screenshots.length === 0) {
+        trackGrowthEvent('error_event', {
+            error_area: 'export_all',
+            error_message: 'No screenshots available'
+        });
         await showAppAlert('Please upload screenshots first', 'info');
         return;
     }
@@ -8458,6 +8502,12 @@ async function exportAllForLanguage(lang) {
     link.href = URL.createObjectURL(content);
     link.click();
     URL.revokeObjectURL(link.href);
+    trackGrowthEvent('export_success', {
+        export_type: 'all',
+        output_device: state.outputDevice,
+        language: lang,
+        screenshot_count: total
+    });
 }
 
 // Export all screenshots for all languages (separate folders)

@@ -16,6 +16,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://framelaunch.store/guides/app-store-screenshot-generator.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://framelaunch.store/guides/free-app-screenshot-maker-no-watermark.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://framelaunch.store/guides/app-store-screenshot-sizes.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -39,6 +49,46 @@
     <loc>https://framelaunch.store/guides/frame-launch-workflow.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://framelaunch.store/guides/product-hunt-launch-image-checklist.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://framelaunch.store/alternatives/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://framelaunch.store/alternatives/app-launchpad-alternative.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://framelaunch.store/alternatives/appscreens-alternative.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://framelaunch.store/alternatives/appure-alternative.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://framelaunch.store/alternatives/storeshots-alternative.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://framelaunch.store/alternatives/canva-vs-framelaunch.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://framelaunch.store/alternatives/figma-templates-vs-framelaunch.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://framelaunch.store/templates.html</loc>

@@ -28,7 +28,7 @@
         --bg-tertiary: #f4eed1;
         --border-color: #e0d6ad;
         --text-primary: #121212;
-        --text-secondary: #6b6b6b;
+        --text-secondary: #554a32;
         --accent: #e8c610;
         --accent-hover: #d1b00d;
         --shadow-color: rgba(0, 0, 0, 0.08);
@@ -40,6 +40,7 @@
     .tip-box img { filter: none; }
     .settings-btn img { filter: invert(0.4); }
     .settings-btn:hover img { filter: invert(0); }
+    .editor-header-word span { color: #745f00; }
 }
 
 /* Manual theme overrides */
@@ -49,7 +50,7 @@ html[data-theme="light"] {
     --bg-tertiary: #f4eed1;
     --border-color: #e0d6ad;
     --text-primary: #121212;
-    --text-secondary: #6b6b6b;
+    --text-secondary: #554a32;
     --accent: #e8c610;
     --accent-hover: #d1b00d;
     --shadow-color: rgba(0, 0, 0, 0.08);
@@ -179,6 +180,26 @@ html.tauri-app .right-sidebar {
 
 .editor-header-word span {
     color: var(--accent);
+}
+
+html[data-theme="light"] .editor-header-word span {
+    color: #745f00;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.editor-mobile-advisory {
+    display: none;
 }
 
 .editor-header-actions {
@@ -4244,9 +4265,9 @@ body.editor-page #tab-popouts {
         --bg-tertiary: #efe2bd;
         --border-color: #d7c79d;
         --text-primary: #1f1a10;
-        --text-secondary: #74684d;
-        --accent: #b89322;
-        --accent-hover: #8f7017;
+        --text-secondary: #554a32;
+        --accent: #745f00;
+        --accent-hover: #5d4a00;
         --shadow-color: rgba(71, 54, 18, 0.10);
         --shadow-heavy: rgba(71, 54, 18, 0.20);
         --overlay-bg: rgba(31, 26, 16, 0.38);
@@ -4267,9 +4288,9 @@ html[data-theme="light"] {
     --bg-tertiary: #efe2bd;
     --border-color: #d7c79d;
     --text-primary: #1f1a10;
-    --text-secondary: #74684d;
-    --accent: #b89322;
-    --accent-hover: #8f7017;
+    --text-secondary: #554a32;
+    --accent: #745f00;
+    --accent-hover: #5d4a00;
     --shadow-color: rgba(71, 54, 18, 0.10);
     --shadow-heavy: rgba(71, 54, 18, 0.20);
     --overlay-bg: rgba(31, 26, 16, 0.38);
@@ -4850,4 +4871,186 @@ body::before {
 .modal-btn-primary:hover::after,
 #settings-modal-save:hover::after {
     animation: studioAccentSweep 0.72s ease-out;
+}
+
+@media (max-width: 960px) {
+    html,
+    body.editor-page {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    body.editor-page {
+        overflow: auto;
+    }
+
+    body.editor-page .editor-header {
+        height: auto;
+        min-height: var(--editor-header-height);
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 8px 12px;
+    }
+
+    body.editor-page .editor-header-mark {
+        width: 40px;
+        height: 40px;
+    }
+
+    body.editor-page .editor-header-word {
+        font-size: 18px;
+    }
+
+    body.editor-page .editor-header-project {
+        order: 3;
+        flex: 1 0 100%;
+        padding: 0;
+    }
+
+    body.editor-page .editor-header-actions {
+        display: none;
+    }
+
+    body.editor-page .editor-mobile-advisory {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        width: calc(100vw - 24px);
+        max-width: calc(100vw - 24px);
+        margin: 10px 12px 0;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: 12px 14px;
+        box-shadow: var(--studio-shadow, 0 18px 44px rgba(0, 0, 0, 0.12));
+    }
+
+    body.editor-page .editor-mobile-advisory strong {
+        flex-shrink: 0;
+        color: #745f00;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    body.editor-page .editor-mobile-advisory span {
+        display: block;
+        min-width: 0;
+        max-width: 100%;
+        color: var(--text-secondary);
+        font-size: 13px;
+        line-height: 1.45;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    body.editor-page .app-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100vw;
+        max-width: 100vw;
+        min-height: auto;
+        max-height: none;
+        gap: 12px;
+        padding: 12px;
+        overflow: visible;
+    }
+
+    body.editor-page .sidebar,
+    body.editor-page .sidebar-right,
+    body.editor-page .canvas-area {
+        width: 100%;
+        max-width: 100%;
+        max-height: none;
+        min-height: auto;
+    }
+
+    body.editor-page .canvas-area {
+        min-height: 520px;
+        order: 2;
+    }
+
+    body.editor-page .sidebar {
+        order: 1;
+    }
+
+    body.editor-page .sidebar-right {
+        order: 3;
+    }
+
+    body.editor-page .sidebar-content,
+    body.editor-page .sidebar-right .sidebar-content {
+        max-height: none;
+    }
+
+    body.editor-page .project-buttons {
+        display: none;
+    }
+
+    body.editor-page .sidebar-add-buttons {
+        flex-direction: column;
+    }
+
+    body.editor-page .add-btn {
+        width: 100%;
+    }
+
+    body.editor-page .canvas-viewport {
+        min-height: 440px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 18px 12px;
+    }
+
+    body.editor-page .side-preview,
+    body.editor-page .side-preview-far {
+        display: none;
+    }
+
+    body.editor-page .canvas-wrapper {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 560px) {
+    body.editor-page .editor-header {
+        align-items: center;
+    }
+
+    body.editor-page .editor-header-word {
+        font-size: 16px;
+    }
+
+    body.editor-page .project-trigger {
+        min-height: 42px;
+    }
+
+    body.editor-page .app-container {
+        padding: 10px;
+    }
+
+    body.editor-page .sidebar-add-buttons,
+    body.editor-page .sidebar-footer {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+
+    body.editor-page .canvas-area {
+        min-height: 460px;
+    }
+
+    body.editor-page .canvas-viewport {
+        min-height: 380px;
+    }
+
+    body.editor-page .canvas-zoom-bar {
+        padding: 8px;
+    }
+
+    body.editor-page .canvas-zoom-slider {
+        width: 150px;
+    }
 }

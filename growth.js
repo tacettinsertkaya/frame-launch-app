@@ -91,6 +91,7 @@
 
     function bootGtm() {
         if (!analytics.gtmId) return;
+        if (document.querySelector('script[src*="googletagmanager.com/gtm.js?id="]')) return;
         dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
         loadScript('https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(analytics.gtmId));
     }
@@ -120,9 +121,65 @@
         attribution: attribution,
     };
 
+    function addJsonLd(id, data) {
+        if (document.getElementById(id)) return;
+        var script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = id;
+        script.textContent = JSON.stringify(data);
+        document.head.appendChild(script);
+    }
+
+    function addPageSchemas() {
+        var canonical = document.querySelector('link[rel="canonical"]');
+        var canonicalUrl = canonical ? canonical.href : window.location.href.split('#')[0];
+        var description = document.querySelector('meta[name="description"]');
+        var parts = pagePath.split('/').filter(Boolean);
+
+        addJsonLd('fl-organization-schema', {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            '@id': 'https://framelaunch.store/#organization',
+            name: 'Frame Launch',
+            url: 'https://framelaunch.store/',
+            logo: 'https://framelaunch.store/img/apple-touch-icon.png',
+            sameAs: ['https://github.com/YUZU-Hub/appscreen']
+        });
+
+        if (parts.length > 0) {
+            addJsonLd('fl-breadcrumb-schema', {
+                '@context': 'https://schema.org',
+                '@type': 'BreadcrumbList',
+                itemListElement: parts.map(function (part, index) {
+                    var path = '/' + parts.slice(0, index + 1).join('/');
+                    if (!path.endsWith('.html') && index < parts.length - 1) path += '/';
+                    return {
+                        '@type': 'ListItem',
+                        position: index + 1,
+                        name: part.replace(/\.html$/, '').replace(/-/g, ' ').replace(/\s+/g, ' ').trim(),
+                        item: 'https://framelaunch.store' + path
+                    };
+                })
+            });
+        }
+
+        if (document.querySelector('meta[property="og:type"][content="article"]') || document.body.classList.contains('content-page')) {
+            addJsonLd('fl-article-schema', {
+                '@context': 'https://schema.org',
+                '@type': 'Article',
+                headline: document.title.replace(' - Frame Launch', ''),
+                description: description ? description.content : '',
+                mainEntityOfPage: canonicalUrl,
+                author: { '@id': 'https://framelaunch.store/#organization' },
+                publisher: { '@id': 'https://framelaunch.store/#organization' }
+            });
+        }
+    }
+
     bootGtm();
     bootGa4();
     bootClarity();
+    addPageSchemas();
 
     track('page_view', {
         viewport_width: window.innerWidth,
